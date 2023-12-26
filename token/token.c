@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 16:06:30 by ybelatar          #+#    #+#             */
-/*   Updated: 2023/12/26 16:51:47 by ybelatar         ###   ########.fr       */
+/*   Updated: 2023/12/26 18:37:10 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int is_operator(char *str, t_token **new)
 {
     if (!ft_strcmp(str, "&&"))
     {
-        (*new)->ope_type = AND_OR;
+        (*new)->ope_type = AND;
         return (1);
     }
     else if (!ft_strcmp(str, "||"))
     {
-        (*new)->ope_type = AND_OR;
+        (*new)->ope_type = OR;
         return (1);
     }
     else if (!ft_strcmp(str, "|"))

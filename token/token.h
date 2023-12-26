@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:38:23 by ybelatar          #+#    #+#             */
-/*   Updated: 2023/12/26 16:18:37 by ybelatar         ###   ########.fr       */
+/*   Updated: 2023/12/26 18:36:57 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef enum
 
 typedef enum
 {
-	AND_OR,
+	AND,
+	OR,
 	PIPE,
 	SEMICOLON,
 	REDIRECT_IN,
