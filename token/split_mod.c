@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:55:09 by ybelatar          #+#    #+#             */
-/*   Updated: 2023/12/25 16:04:43 by ybelatar         ###   ########.fr       */
+/*   Updated: 2023/12/26 20:36:51 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ static char	*get_next_word(char const *str, int *ptr, char c)
 		*ptr = *ptr + 1;
 	}
 	word[i] = 0;
+	word = expand_env(word);
+	word = expand_wildcard(word);
 	return (word);
 }
 
@@ -125,4 +127,3 @@ char	**ft_split(char *s, char c)
 	words[i] = 0;
 	return (words);
 }
-

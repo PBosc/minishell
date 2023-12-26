@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 16:06:30 by ybelatar          #+#    #+#             */
-/*   Updated: 2023/12/26 18:37:10 by pibosc           ###   ########.fr       */
+/*   Updated: 2023/12/26 20:52:40 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int is_operator(char *str, t_token **new)
 {
     if (!ft_strcmp(str, "&&"))
     {
-        (*new)->ope_type = AND;
+        (*new)->ope_type = AND_OR;
         return (1);
     }
     else if (!ft_strcmp(str, "||"))
     {
-        (*new)->ope_type = OR;
+        (*new)->ope_type = AND_OR;
         return (1);
     }
     else if (!ft_strcmp(str, "|"))
@@ -103,17 +103,20 @@ void    add_token(t_token **token, char *str)
     }
 }
 
-t_token *tokenizer(char *input)
+t_token *tokenizer(char *input, char **env)
 {
     char **splitted;
     int i;
     static t_token *token = NULL;
 
+    if (!input)
+        return (NULL);
     if (!check_quotes(input))
         return (NULL);
     splitted = ft_split(input, ' ');
     if (!splitted)
         return (NULL);
+    //expand_env(&splitted, env);
     i = 0;
     while (splitted[i])
     {
@@ -135,8 +138,44 @@ void    display_tokens(t_token * token)
     }
 }
 
-int main (int ac, char **av)
+int main (int ac, char **av, char **env)
 {
-    display_tokens(tokenizer(av[1]));
+    
+    display_tokens(tokenizer(av[1], env));
+
+    //printf("test path %s\n",getenv("PAT,P"));
+    // int i = 0;
+    // while (env[i])
+    // {
+    //     printf("%s\n", env[i]);
+    //     i++;
+    // }
+    // dir = opendir(".");
+    // if (dir == NULL)
+    // {
+    //     perror("opendir");
+    //     return (1);
+    // }
+    // while ((entry = readdir(dir)))
+    //     printf("%s\n", entry->d_name);
+    // closedir(dir);
     return (0);
 }
+
+
+// int main() {
+//     DIR *dir;
+//     struct dirent *entry;
+
+
+//     dir = opendir(".");
+//     if (dir == NULL)
+//     {
+//         perror("opendir");
+//         return (1);
+//     }
+//     while ((entry = readdir(dir)))
+//         printf("%s\n", entry->d_name);
+//     closedir(dir);
+//     return (0);
+// }

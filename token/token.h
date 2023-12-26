@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:38:23 by ybelatar          #+#    #+#             */
-/*   Updated: 2023/12/26 18:36:57 by pibosc           ###   ########.fr       */
+/*   Updated: 2023/12/26 20:50:13 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# include <dirent.h>
 
 typedef enum
 {
@@ -29,8 +30,7 @@ typedef enum
 
 typedef enum
 {
-	AND,
-	OR,
+	AND_OR,
 	PIPE,
 	SEMICOLON,
 	REDIRECT_IN,
@@ -55,5 +55,7 @@ typedef struct s_token
 int ft_strcmp(char *s1, char *s2);
 char	**ft_split(char *s, char c);
 int check_quotes(char *str);
+char *expand_env(char *str);
+char *expand_wildcard(char *str);
 
 #endif
