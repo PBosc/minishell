@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2023/12/26 19:20:46 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/01 15:17:20 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	wait_commands(t_exec *exec)
 	return (exec->ret_value);
 }
 
-int   exec_cmd(t_node_ast *node)
+int   exec_cmd(t_node_ast *node, t_exec *exec)
 {
 	printf("exec_cmd\n");
 }

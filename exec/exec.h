@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/01 15:12:30 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/01 15:17:02 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int    exec_heredoc(t_node_ast *node, t_exec *exec);
 int    exec_nothing(t_node_ast *node, t_exec *exec);
 
 //actual execution
-int   exec_cmd(t_node_ast *node);
+int   exec_cmd(t_node_ast *node, t_exec *exec);
 static int	wait_commands(t_exec *exec);
 int		exec(t_node_ast *ast, t_exec *exec);
 
