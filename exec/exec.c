@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:13:06 by pibosc            #+#    #+#             */
-/*   Updated: 2023/12/26 19:25:33 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/01 15:12:16 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ void init_jump_table(int (***exec_fct)(t_node_ast *))
 	(*exec_fct)[8] = &exec_nothing;
 }
 
-int		exec(t_node_ast *ast)
+int		exec(t_node_ast *ast, t_exec *exec)
 {
 	static e_operator_type	ope_type = NOTHING;
-	(int)(*exec_fct[9])(t_node_ast *, t_exec *);
+	t_fct_ptr				exec_fct[9];
 
 	init_jump_table(&exec_fct);
 	if (ast->token->type == OPERATOR)
-		return (exec_fct[ast->token->ope_type](ast));
+		return (exec_fct[ast->token->ope_type](ast, exec));
 	else
 		return(0);
 }
