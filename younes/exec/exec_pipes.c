@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/05 16:50:25 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/05 18:00:56 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ int	child_pipes(t_exec *data, int is_end)
 void    exec_pipe(t_node_ast *node, t_exec *data, int is_end)
 {
 	if (pipe(data->pipe) == -1)
-		return (EXIT_FAILURE);
+		return ;
 	node->args[0] = get_valid_path(get_path(data->env), node->args[0]);
 	data->pid = fork();
 	if (data->pid == -1)
-		return (EXIT_FAILURE);
+		return ;
 	if (data->pid == 0)
 	{
 		child_pipes(data, is_end);
@@ -88,5 +88,12 @@ int exec_master_pipe(t_node_ast *node, t_exec *data)
 		return (g_status);
 	}
 	else
-		return (EXIT_FAILURE);
+	{
+		data->is_pipe = 1;
+		exec(node->left_child, data);
+		exec_pipe(node->right_child, data, 1);
+		data->is_pipe = 0;
+		g_status = wait_commands(data);
+		return (g_status);
+	}
 }

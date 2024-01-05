@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/05 00:41:35 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/05 18:03:55 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ void child_fds(t_exec *data)
 		dup2(data->fd_out, STDOUT_FILENO);
 		close(data->fd_out);
 	}
+	if (data->is_pipe)
+	{
+		dup2(data->pipe[1], STDOUT_FILENO);
+		if (data->pipe[0] != -1)
+			close(data->pipe[0]);
+	}
 }
 
 int   exec_cmd(t_node_ast *node, t_exec *data)
@@ -66,6 +72,6 @@ int   exec_cmd(t_node_ast *node, t_exec *data)
 		close(data->pipe[1]);
 		data->fd_in = data->pipe[0];
 		data->fd_out = STDOUT_FILENO;
-		return (wait_commands(data));
+		return (g_status);
 	}
 }

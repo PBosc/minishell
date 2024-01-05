@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:13:06 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/05 16:52:48 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/05 17:01:32 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int g_status;
 
-void init_jump_table(t_fct_ptr (*exec_fct)[9])
+void init_jump_table(t_fct_ptr (*exec_fct)[4])
 {
 	(*exec_fct)[T_CMD] = &exec_cmd;
 	(*exec_fct)[T_PIPE] = &exec_master_pipe;
