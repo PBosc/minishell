@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 16:41:31 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/01 16:42:53 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/04 23:55:06 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void free_tab_2d(char **tab)
 	free(tab);
 }
 
-static int	starts_with(char *str, char *start)
+int	starts_with(char *str, char *start)
 {
 	int	i;
 
@@ -34,7 +34,7 @@ static int	starts_with(char *str, char *start)
 	return (1);
 }
 
-static char	*ft_trim(char *str, int start)
+char	*ft_trim(char *str, int start)
 {
 	char	*tmp;
 
@@ -82,6 +82,6 @@ char	**get_path(char **env)
 		}
 		i++;
 	}
-	ft_printf("PATH not found\n");
+	printf("PATH not found\n");
 	return (NULL);
 }
