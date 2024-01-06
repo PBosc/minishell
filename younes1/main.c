@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/05 20:49:21 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:15:39 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include "exec.h"
+#include "minishell.h"
 
 void	display_pretokens(t_pretoken *pretoken)
 {
@@ -97,9 +99,10 @@ void	display_ast(t_node_ast *root)
 	printf("\n");
 }
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **env)
 {
 	t_minishell *minishell;
+	t_exec		data;
 	//char		*str;
 	//t_pretoken	*pretokens;
 	//t_token		*tokens;
@@ -133,7 +136,12 @@ int	main(int ac, char **av)
 		}
 		display_tokens(minishell->tokens);
 		minishell->ast = parser(minishell->tokens);
+		init_data(&data, env);
+		exec(minishell->ast, &data);
+		if (minishell->ast->type == T_CMD)
+			g_status = wait_commands(&data);
 		display_ast(minishell->ast);
 		clear_ast(&(minishell->ast));
+		printf("g_status = %d\n", g_status);
 	}
 }

@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread -g3
 INCLUDE = -I./includes
-VPATH = ./expand ./parsing ./pretoken ./token ./utils_parsing ./ft_dprintf ./clear_error
+VPATH = ./expand ./parsing ./pretoken ./token ./utils_parsing ./ft_dprintf ./clear_error ./redir ./exec
 RM = rm -rf
 NAME = test_parsing
 
@@ -13,7 +13,9 @@ SRCS =	ast_redir.c ast_utils.c ast_utils2.c ast.c\
 		ft_strjoin.c ft_strlcpy.c ft_substr.c\
 		ft_dprintf.c dprintf_utils.c dprintf_utils2.c\
 		expand_environment.c expand_wildcard.c expand.c\
-		clear.c\
+		clear.c redir.c exec.c exec_cmd.c exec_operations.c\
+		exec_utils.c exec_operations_2.c exec_pipes.c path.c\
+		split.c init.c \
 		main.c
 
 OBJ_DIR = obj
