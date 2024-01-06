@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/06 18:11:10 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/06 23:49:01 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ int	wait_commands(t_exec *exec)
 {
 	while (1)
 	{
+		dprintf(STDERR_FILENO, "wait\n");
 		exec->wpid = wait(&exec->status);
+		dprintf(STDERR_FILENO, "wait2\n");
 		if (exec->wpid == -1)
 			break ;
 		if (exec->wpid != exec->pid || exec->ret_value != EXIT_SUCCESS)

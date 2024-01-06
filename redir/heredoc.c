@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/06 21:05:16 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/06 23:17:50 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	read_here_doc(t_hered **here_doc, t_exec *data)
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			return (get_next_line(-42), perror("malloc"), 0);
-		line = expanded_heredoc(line);
+		// line = expanded_heredoc(line);
 		if (is_limit(line, data->limiter))
 			return (get_next_line(-42), free(line), 1);
 		if (!ft_lstpush_back(here_doc, line))
@@ -110,5 +110,36 @@ int	write_here_doc(t_hered *here_doc, t_exec *data)
 		write(data->pipe[1], node->line, ft_strlen(node->line));
 		node = node->next;
 	}
+	return (1);
+}
+
+void	child_heredoc(t_hered *heredoc, t_exec *data)
+{
+	write_here_doc(heredoc, data);
+	close(data->pipe[0]);
+	close(data->pipe[1]);
+	exit(EXIT_SUCCESS);
+}
+
+int	init_heredoc(t_exec *data)
+{
+	t_hered		*heredoc;
+	pid_t		child_pid;
+	int			ret;
+
+	if (pipe(data->pipe) == -1)
+		return (perror("pipe"), 0);
+	heredoc = NULL;
+	ret = read_here_doc(&heredoc, data);
+	free(data->limiter);
+	if (ret == 0)
+		return (0);
+	child_pid = fork();
+	if (child_pid == -1)
+		return (0);
+	if (child_pid == 0)
+		child_heredoc(heredoc, data);
+	close(data->pipe[1]);
+	data->prev_pipe = data->pipe[0];
 	return (1);
 }
