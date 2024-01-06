@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror -pthread -g3
 INCLUDE = -I./includes
 VPATH = ./expand ./parsing ./pretoken ./token ./utils_parsing ./ft_dprintf ./clear_error ./redir ./exec
 RM = rm -rf
-NAME = test_parsing
+NAME = minishell
 
 
 SRCS =	ast_redir.c ast_utils.c ast_utils2.c ast.c\
