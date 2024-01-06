@@ -6,14 +6,14 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/05 01:06:35 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/05 22:22:02 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
 
-int	child_pipes(t_exec *data)
+int	child_pipes(t_exec *data, int is_end)
 {
 	if (data->fd_in != STDIN_FILENO)
 	{
@@ -22,10 +22,13 @@ int	child_pipes(t_exec *data)
 	}
 	else if (data->prev_pipe != -1)
 		dup2(data->prev_pipe, STDIN_FILENO);
-	if (data->fd_out != STDOUT_FILENO)
+	if (is_end)
 	{
-		dup2(data->fd_out, STDOUT_FILENO);
-		close(data->fd_out);
+		if (data->fd_out != STDOUT_FILENO)
+		{
+			dup2(data->fd_out, STDOUT_FILENO);
+			close(data->fd_out);
+		}
 	}
 	else
 		dup2(data->pipe[1], STDOUT_FILENO);
@@ -35,17 +38,17 @@ int	child_pipes(t_exec *data)
 	return (EXIT_SUCCESS);
 }
 
-int    exec_pipe(t_node_ast *node, t_exec *data)
+void    exec_pipe(t_node_ast *node, t_exec *data, int is_end)
 {
 	if (pipe(data->pipe) == -1)
-		return (EXIT_FAILURE);
+		return ;
 	node->args[0] = get_valid_path(get_path(data->env), node->args[0]);
 	data->pid = fork();
 	if (data->pid == -1)
-		return (EXIT_FAILURE);
+		return ;
 	if (data->pid == 0)
 	{
-		child_pipes(data);
+		child_pipes(data, is_end);
 		execve(node->args[0], node->args, data->env);
 		exit(data->ret_value);
 	}
@@ -58,22 +61,39 @@ int    exec_pipe(t_node_ast *node, t_exec *data)
 	}
 }
 
-int exec_pipeline(t_node_ast *node, t_exec *data)
+void exec_pipeline(t_node_ast *node, t_exec *data)
 {
 	if (node->left_child->type == T_PIPE)
 		exec_pipeline(node->left_child, data);
 	if (node->left_child->type == T_CMD)
-		exec_pipe(node->left_child, data);
+		exec_pipe(node->left_child, data, 0);
 	if (node->right_child->type == T_CMD)
-		exec_pipe(node->right_child, data);
+		exec_pipe(node->right_child, data, 0);
 }
 
-int exec_master_pipe(t_node_ast *node, t_exec *data)
+int	exec_master_pipe(t_node_ast *node, t_exec *data)
 {
-	if (node->left_child->type == T_PIPE)
-		exec_pipeline(node->left_child, data);
-	else if (node->left_child->type == T_CMD)
+	if (node->left_child->type == T_CMD)
 	{
-		
+		exec_pipe(node->left_child, data, 0);
+		exec_pipe(node->right_child, data, 1);
+		g_status = wait_commands(data);
+		return (g_status);
+	}
+	else if (node->left_child->type == T_PIPE)
+	{
+		exec_pipeline(node->left_child, data);
+		exec_pipe(node->right_child, data, 1);
+		g_status = wait_commands(data);
+		return (g_status);
+	}
+	else
+	{
+		data->is_pipe = 1;
+		exec(node->left_child, data);
+		exec_pipe(node->right_child, data, 1);
+		data->is_pipe = 0;
+		g_status = wait_commands(data);
+		return (g_status);
 	}
 }
