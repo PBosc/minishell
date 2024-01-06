@@ -1,33 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/26 18:13:06 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/06 16:07:41 by pibosc           ###   ########.fr       */
+/*   Created: 2024/01/06 17:27:07 by pibosc            #+#    #+#             */
+/*   Updated: 2024/01/06 17:27:44 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "exec.h"
 
-int g_status;
-
-void init_jump_table(t_fct_ptr (*exec_fct)[4])
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	(*exec_fct)[T_CMD] = &exec_cmd;
-	(*exec_fct)[T_PIPE] = &exec_master_pipe;
-	(*exec_fct)[T_OR] = &exec_or;
-	(*exec_fct)[T_AND] = &exec_and;
-}
+	size_t	i;
 
-int		exec(t_node_ast *ast, t_exec *exec)
-{
-	t_fct_ptr				exec_fct[4];
-
-	init_jump_table(&exec_fct);
-	exec_fct[ast->type](ast, exec);
+	i = 0;
+	while ((unsigned char)s1[i]
+		&& (unsigned char)s1[i] == (unsigned char)s2[i] && i < n)
+		i++;
+	if (i < n)
+		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 	return (0);
 }
 
+int	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+	{
+		write(fd, "(null)", 6);
+		return (6);
+	}
+	else
+		write(fd, s, ft_strlen(s));
+	return (ft_strlen(s));
+}

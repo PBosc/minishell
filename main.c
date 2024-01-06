@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/06 15:15:39 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/06 17:43:29 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,14 +134,15 @@ int	main(int ac, char **av, char **env)
 			printf("OLALA\n");
 			continue ;
 		}
-		display_tokens(minishell->tokens);
+		// display_tokens(minishell->tokens);
 		minishell->ast = parser(minishell->tokens);
 		init_data(&data, env);
 		exec(minishell->ast, &data);
 		if (minishell->ast->type == T_CMD)
 			g_status = wait_commands(&data);
-		display_ast(minishell->ast);
+		// display_ast(minishell->ast);
 		clear_ast(&(minishell->ast));
 		printf("g_status = %d\n", g_status);
 	}
+	return(0);
 }

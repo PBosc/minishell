@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/06 00:10:57 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/06 21:04:34 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <unistd.h>
 # include <fcntl.h>
 
+# define REDIR_HEREDOC -42
+# define BUFFER_SIZE 1024
+
 typedef struct s_exec {
 	int		status;
 	int		wpid;
@@ -30,7 +33,13 @@ typedef struct s_exec {
 	int		prev_pipe;
 	char	**env;
 	int 	is_pipe;
+	char	*limiter;
 }	t_exec;
+
+typedef struct s_hered {
+	char			*line;
+	struct s_hered	*next;
+}	t_hered;
 
 typedef int	(*t_fct_ptr)(t_node_ast *, t_exec *);
 
@@ -53,6 +62,10 @@ char	**get_path(char **env);
 
 //utils
 char	**ft_split(char const *s, char c);
+char	*get_next_line(int fd);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_putstr_fd(char *s, int fd);
+char	*get_name(char *str, int *ptr_i);
 
 //pipe
 int		exec_master_pipe(t_node_ast *node, t_exec *data);
@@ -60,5 +73,11 @@ int		exec_master_pipe(t_node_ast *node, t_exec *data);
 //init
 
 void	init_data(t_exec *data, char **env);
+
+//redirections
+
+void	get_redirs(t_redir_list *redirs, t_exec *data);
+int		read_here_doc(t_hered **here_doc, t_exec *data);
+int		write_here_doc(t_hered *here_doc, t_exec *data);
 
 #endif

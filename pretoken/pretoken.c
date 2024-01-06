@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pretoken.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 00:50:04 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/05 18:23:33 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:06:59 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ t_pretoken	*pretokenization(char *str)
 	i = 0;
 	if (!str)
 		return (NULL);
-	if (!check_quotes(str))
-		return (ft_dprintf(2, "minishell: syntax error because of unclosed quote\n"), NULL);
+	// if (!check_quotes(str))
+	// 	return (ft_dprintf(2, "minishell: syntax error because of unclosed quote\n"), NULL);
 	pretokens = NULL;
 	while (str[i])
 	{
