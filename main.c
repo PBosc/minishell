@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/07 04:13:50 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/07 22:36:48 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,11 @@ int	main(int ac, char **av, char **env)
 			add_history(minishell->cmd_line);
 		if (!ft_strcmp(minishell->cmd_line, "exit"))
 			return (0);
-		printf("%s\n\n", minishell->cmd_line);
+		// printf("%s\n\n", minishell->cmd_line);
 		minishell->pretokens = pretokenization(minishell->cmd_line);
 		//display_pretokens(pretokens);
 		//printf("VALID SYNTAX %s\n\n", check_syntax(pretokens) ? "yes" : "no");
-		expand_pretokens(minishell->pretokens, minishell);
+		// expand_pretokens(minishell->pretokens, minishell);
 		//display_pretokens(pretokens);
 		minishell->tokens = tokenization(minishell->pretokens);
     	if (!minishell->tokens)
@@ -143,7 +143,7 @@ int	main(int ac, char **av, char **env)
 			g_status = wait_commands(&data);
 		// display_ast(minishell->ast);
 		clear_ast(&(minishell->ast));
-		printf("g_status = %d\n", g_status);
+		// printf("g_status = %d\n", g_status);
 	}
 	return(0);
 }

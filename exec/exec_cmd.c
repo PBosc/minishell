@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/07 00:16:10 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/07 21:57:40 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	wait_commands(t_exec *exec)
 		exec->wpid = wait(&exec->status);
 		if (exec->wpid == -1)
 			break ;
-		if (exec->wpid != exec->pid)
+		if (exec->wpid != exec->pid || g_status != EXIT_SUCCESS)
 			continue ;
 		if (WTERMSIG(exec->status) == 2)
 			dprintf(STDERR_FILENO, "\n");
@@ -65,6 +65,8 @@ void	child_fds(t_exec *data)
 
 int	exec_cmd(t_node_ast *node, t_exec *data)
 {
+	if (data->is_pipe)
+		return (exec_pipe(node, data, 0), 0);
 	if (pipe(data->pipe) == -1)
 		return (EXIT_FAILURE);
 	node->args[0] = get_valid_path(get_path(data->env), node->args[0]);

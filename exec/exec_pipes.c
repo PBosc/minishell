@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/07 01:27:02 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/07 22:35:19 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ int	child_pipes(t_exec *data, int is_end)
 
 void	exec_pipe(t_node_ast *node, t_exec *data, int is_end)
 {
-	get_redirs(node->redirs, data);
 	node->args[0] = get_valid_path(get_path(data->env), node->args[0]);
-	if (data->fd_in == REDIR_HEREDOC)
-		init_heredoc(data);
 	if (pipe(data->pipe) == -1)
 		return ;
 	data->pid = fork();
@@ -53,6 +50,9 @@ void	exec_pipe(t_node_ast *node, t_exec *data, int is_end)
 		return ;
 	if (data->pid == 0)
 	{
+		get_redirs(node->redirs, data);
+		if (data->fd_in == REDIR_HEREDOC)
+			init_heredoc(data);
 		child_pipes(data, is_end);
 		execve(node->args[0], node->args, data->env);
 		exit(data->ret_value);
@@ -85,6 +85,7 @@ int	exec_master_pipe(t_node_ast *node, t_exec *data)
 		g_status = wait_commands(data);
 		close(data->pipe[0]);
 		close(data->pipe[1]);
+		close(data->prev_pipe);
 		return (g_status);
 	}
 	else if (node->left_child->type == T_PIPE)
@@ -94,6 +95,7 @@ int	exec_master_pipe(t_node_ast *node, t_exec *data)
 		g_status = wait_commands(data);
 		close(data->pipe[0]);
 		close(data->pipe[1]);
+		close(data->prev_pipe);
 		return (g_status);
 	}
 	else
@@ -105,6 +107,7 @@ int	exec_master_pipe(t_node_ast *node, t_exec *data)
 		g_status = wait_commands(data);
 		close(data->pipe[0]);
 		close(data->pipe[1]);
+		close(data->prev_pipe);
 		return (g_status);
 	}
 }

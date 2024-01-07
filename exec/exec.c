@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:13:06 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/06 16:07:41 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/07 20:03:55 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		exec(t_node_ast *ast, t_exec *exec)
 
 	init_jump_table(&exec_fct);
 	exec_fct[ast->type](ast, exec);
+	g_status = wait_commands(exec);
 	return (0);
 }
 

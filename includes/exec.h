@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/06 23:14:06 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/07 19:08:52 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_exec {
 	char	**env;
 	int 	is_pipe;
 	char	*limiter;
+	t_minishell	*minishell;
 }	t_exec;
 
 typedef struct s_hered {
@@ -52,6 +53,7 @@ void	exec_pipeline(t_node_ast *node, t_exec *exec);
 int		exec_cmd(t_node_ast *node, t_exec *exec);
 int		wait_commands(t_exec *exec);
 int		exec(t_node_ast *ast, t_exec *exec);
+void	exec_pipe(t_node_ast *node, t_exec *data, int is_end);
 
 //path
 char	*get_valid_path(char **paths, char *cmd);
@@ -80,5 +82,15 @@ void	get_redirs(t_redir_list *redirs, t_exec *data);
 int		read_here_doc(t_hered **here_doc, t_exec *data);
 int		write_here_doc(t_hered *here_doc, t_exec *data);
 int		init_heredoc(t_exec *data);
+
+//builtins
+
+// int 	cd(char **args, t_minishell *minishell);
+// int 	echo(char **tab);
+// int 	env(t_minishell *minishell);
+// int 	exit_minishell(char **args, t_minishell *minishell);
+// int 	export(char **args, t_minishell *minishell);
+// int 	pwd(char **args, t_minishell *minishell);
+// int 	unset(char **args, t_minishell *minishell);
 
 #endif
