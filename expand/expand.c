@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:27 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/03 07:25:02 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/06 18:56:42 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	rm_quotes(t_pretoken *pretoken)
 	TODO changer le retour en int pour remonter l'erreur easy
 */
 
-void	expand_pretokens(t_pretoken *pretokens)
+void	expand_pretokens(t_pretoken *pretokens, t_minishell *minishell)
 {
 	while (pretokens)
 	{
@@ -60,11 +60,11 @@ void	expand_pretokens(t_pretoken *pretokens)
 			else if (pretokens->content[0] == '"')
 			{
 				rm_quotes(pretokens);
-				expand_env(pretokens);
+				expand_env(pretokens, minishell);
 			}
 			else
 			{
-				expand_env(pretokens);
+				expand_env(pretokens, minishell);
 				expand_wildcard(pretokens);
 			}
 		}

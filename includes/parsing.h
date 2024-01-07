@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/05 20:42:31 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/07 04:04:08 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,22 @@ typedef struct s_node_ast
 	struct s_node_ast	*right_child;
 }						t_node_ast;
 
+typedef struct s_env
+{
+	char				*key;
+	char				*value;
+	struct s_env		*next_env;
+}						t_env;
+
 typedef struct s_minishell
 {
-	t_pretoken *pretokens;
-	t_token *tokens;
-	t_node_ast *ast;
-	char **env;
-	int	exit_status;
-	char *cmd_line;
-}	t_minishell;
+	t_pretoken			*pretokens;
+	t_token				*tokens;
+	t_node_ast			*ast;
+	char				**env;
+	int					exit_status;
+	char				*cmd_line;
+}						t_minishell;
 
 /*Parser*/
 t_node_ast				*parser(t_token *tokens);
@@ -116,10 +123,11 @@ void					syntax_error(t_pretoken *pretoken);
 
 /*Expand functions*/
 void					rm_quotes(t_pretoken *pretoken);
-void					expand_env(t_pretoken *pretoken);
+void					expand_env(t_pretoken *pretoken,
+							t_minishell *minishell);
 void					expand_wildcard(t_pretoken *pretoken);
-void					expand_pretokens(t_pretoken *pretokens);
-
+void					expand_pretokens(t_pretoken *pretokens,
+							t_minishell *minishell);
 /*Redirections*/
 int						add_redir(t_node_ast *node, t_token **token);
 t_redir_list			*create_redir(t_redir_type type, char *file);
@@ -151,6 +159,11 @@ int						is_in_charset(char c, char *set);
 char					*get_word(char *str, int *i);
 t_pretoken				*skip_spaces(t_pretoken *pretokens);
 t_pretoken				*new_pretoken(char *content, t_pretoken_type type);
+void					update_env(char *key, char *value, t_env *env);
+void					delete_env(char *key, t_env *env,
+							t_minishell *minishell);
+t_env					*new_env(char *key, char *value, int i);
+char					*get_name(char *str, int *ptr_i);
 
 /*Libft functions*/
 char					*ft_strchr(char *s, char c);
@@ -166,6 +179,11 @@ int						ft_isalnum(int c);
 int						ft_strcmp(const char *s1, const char *s2);
 void					*ft_calloc(size_t nmemb, size_t size);
 size_t					ft_strlcpy(char *dst, char *src, size_t size);
+int						ft_isatoi(char *str);
+int						ft_atoi(const char *str);
+int						ft_strncmp(const char *s1, const char *s2, size_t n);
+char					*get_env(char *key, t_env *env);
+int						ft_isalpha(int c);
 
 /*Free and error handling functions*/
 void					clear_pretokens(t_pretoken **pretokens);
@@ -177,6 +195,6 @@ void					move_def(t_pretoken **pretoken, int i);
 void					move_def_token(t_token **token, int i);
 
 /*Debugging*/
-void display_tab(char **tab);
+void					display_tab(char **tab);
 
 #endif
