@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/07 01:05:36 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/07 01:32:13 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@ static int	is_limit(char *line, char *limiter)
 		return (0);
 	return (ft_strncmp(line, limiter, length) == 0
 		&& (line[length] == '\n'));
+}
+
+void	free_heredoc(t_hered *here_doc)
+{
+	t_hered	*tmp;
+
+	while (here_doc)
+	{
+		tmp = here_doc;
+		here_doc = here_doc->next;
+		free(tmp->line);
+		free(tmp);
+	}
 }
 
 t_hered	*ft_hered_last(t_hered *lst)
@@ -116,6 +129,7 @@ int	write_here_doc(t_hered *here_doc, t_exec *data)
 void	child_heredoc(t_hered *heredoc, t_exec *data)
 {
 	write_here_doc(heredoc, data);
+	free_heredoc(heredoc);
 	close(data->pipe[0]);
 	close(data->pipe[1]);
 	exit(EXIT_SUCCESS);

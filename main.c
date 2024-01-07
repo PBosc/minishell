@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/07 00:07:19 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/07 01:39:45 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ int	main(int ac, char **av, char **env)
 		minishell->ast = parser(minishell->tokens);
 		init_data(&data, env);
 		exec(minishell->ast, &data);
-		// if (minishell->ast->type == T_CMD)
-		// 	g_status = wait_commands(&data);
+		if (minishell->ast->type == T_CMD)
+			g_status = wait_commands(&data);
 		// display_ast(minishell->ast);
 		clear_ast(&(minishell->ast));
 		printf("g_status = %d\n", g_status);

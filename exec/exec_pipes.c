@@ -6,13 +6,11 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/07 01:14:09 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/07 01:27:02 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
-
-
 
 void print_here_doc(t_hered *heredoc)
 {
@@ -68,7 +66,7 @@ void	exec_pipe(t_node_ast *node, t_exec *data, int is_end)
 	}
 }
 
-void exec_pipeline(t_node_ast *node, t_exec *data)
+void	exec_pipeline(t_node_ast *node, t_exec *data)
 {
 	if (node->left_child->type == T_PIPE)
 		exec_pipeline(node->left_child, data);
