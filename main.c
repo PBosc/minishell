@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/06 23:48:20 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/07 00:07:19 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	g_status = 0;
 	minishell = ft_calloc(1, sizeof(minishell));
 	if (!minishell)
 		return (1);

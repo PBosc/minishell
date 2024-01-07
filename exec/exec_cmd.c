@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/06 23:49:01 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/07 00:16:10 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,21 @@ int	wait_commands(t_exec *exec)
 {
 	while (1)
 	{
-		dprintf(STDERR_FILENO, "wait\n");
 		exec->wpid = wait(&exec->status);
-		dprintf(STDERR_FILENO, "wait2\n");
 		if (exec->wpid == -1)
 			break ;
-		if (exec->wpid != exec->pid || exec->ret_value != EXIT_SUCCESS)
+		if (exec->wpid != exec->pid)
 			continue ;
 		if (WTERMSIG(exec->status) == 2)
 			dprintf(STDERR_FILENO, "\n");
 		else if (WTERMSIG(exec->status) == 3)
 			dprintf(STDERR_FILENO, "Quit (core dumped)\n");
 		if (WIFEXITED(exec->status))
-			exec->ret_value = WEXITSTATUS(exec->status);
+			g_status = WEXITSTATUS(exec->status);
 		else
-			exec->ret_value = 128 + WTERMSIG(exec->status);
+			g_status = 128 + WTERMSIG(exec->status);
 	}
-	return (exec->ret_value);
+	return (g_status);
 }
 
 void	child_fds(t_exec *data)
