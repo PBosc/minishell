@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 16:41:31 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/04 23:55:06 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 01:26:06 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*get_valid_path(char **paths, char *cmd)
 	i = 0;
 	if (cmd[0] == '.' || cmd[0] == '/')
 		return (cmd);
-	while (paths[i])
+	while (paths)
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		cmd_path = ft_strjoin(tmp, cmd);
@@ -66,21 +66,18 @@ char	*get_valid_path(char **paths, char *cmd)
 	return (NULL);
 }
 
-char	**get_path(char **env)
+char	**get_path(t_env *env)
 {
-	int		i;
 	char	**path;
 
-	i = 0;
-	while (env[i])
+	while (env)
 	{
-		if (starts_with(env[i], "PATH="))
+		if (!ft_strcmp(env->key, "PATH"))
 		{
-			path = ft_split(env[i], ':');
-			path[0] = ft_trim(path[0], 5);
+			path = ft_split(env->value, ':');
 			return (path);
 		}
-		i++;
+		env = env->next_env;
 	}
 	printf("PATH not found\n");
 	return (NULL);

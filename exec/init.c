@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:59:08 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/06 19:43:37 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 01:23:30 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void	init_data(t_exec *data, char **env)
+void	init_data(t_exec *data, t_env *env)
 {
 	data->env = env;
 	data->fd_in = STDIN_FILENO;
@@ -22,4 +22,28 @@ void	init_data(t_exec *data, char **env)
 	data->pipe[1] = -1;
 	data->is_pipe = 0;
 	data->ret_value = EXIT_SUCCESS;
+}
+
+char *get_one(t_env *env)
+{
+	char *res;
+
+	res = ft_strjoin_free(env->key, "=");
+	res = ft_strjoin_free(res, env->value);
+	return (res);
+}
+
+char **tab_env(t_env *env)
+{
+	char **res;
+
+	if (!env)
+		return (NULL);
+	res = NULL;
+	while (env)
+	{
+		res = join_tab(res, get_one(env));
+		env = env->next_env;
+	}
+	return (res);
 }

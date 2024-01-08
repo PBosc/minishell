@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/07 19:08:52 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 01:18:14 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_exec {
 	int		fd_out;
 	int		ret_value;
 	int		prev_pipe;
-	char	**env;
+	t_env	*env;
 	int 	is_pipe;
 	char	*limiter;
 	t_minishell	*minishell;
@@ -60,7 +60,9 @@ char	*get_valid_path(char **paths, char *cmd);
 void	free_tab_2d(char **tab);
 int		starts_with(char *str, char *start);
 char	*ft_trim(char *str, int start);
-char	**get_path(char **env);
+char	**get_path(t_env *env);
+char **tab_env(t_env *env);
+
 
 //utils
 char	**ft_split(char const *s, char c);
@@ -74,7 +76,7 @@ int		exec_master_pipe(t_node_ast *node, t_exec *data);
 
 //init
 
-void	init_data(t_exec *data, char **env);
+void	init_data(t_exec *data, t_env *env);
 
 //redirections
 

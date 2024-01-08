@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/07 22:35:19 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 01:18:40 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	exec_pipe(t_node_ast *node, t_exec *data, int is_end)
 		if (data->fd_in == REDIR_HEREDOC)
 			init_heredoc(data);
 		child_pipes(data, is_end);
-		execve(node->args[0], node->args, data->env);
+		execve(node->args[0], node->args, tab_env(data->env));
 		exit(data->ret_value);
 	}
 	else

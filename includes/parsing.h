@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/07 04:04:08 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/08 01:05:53 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,12 @@ typedef struct s_env
 
 typedef struct s_minishell
 {
+	char				*cmd_line;
+	t_env				*env;
 	t_pretoken			*pretokens;
 	t_token				*tokens;
 	t_node_ast			*ast;
-	char				**env;
 	int					exit_status;
-	char				*cmd_line;
 }						t_minishell;
 
 /*Parser*/

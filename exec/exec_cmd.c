@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/07 21:57:40 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 01:12:01 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	exec_cmd(t_node_ast *node, t_exec *data)
 		child_fds(data);
 		if (!data->is_pipe)
 			close(data->pipe[1]);
-		execve(node->args[0], node->args, data->env);
+		execve(node->args[0], node->args, tab_env(data->env));
 		exit(data->ret_value);
 	}
 	else

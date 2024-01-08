@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/07 22:36:48 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 01:40:17 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,25 +99,73 @@ void	display_ast(t_node_ast *root)
 	printf("\n");
 }
 
+t_env *new_env(char *key, char *value, int i)
+{
+	t_env *new;
+
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
+	new->key = key;
+	if (i)
+		new->value = getenv(key);
+	else
+		new->value = value;
+	new->next_env = NULL;
+	return (new);
+}
+
+void	env_add_back(t_env **env, t_env *new)
+{
+	t_env *last;
+	
+	if (!new || !env)
+		return ;
+	if (!*env)
+		*env = new;
+	else
+	{
+		last = *env;
+		while (last->next_env)
+			last = last->next_env;
+		last->next_env = new;
+	}
+}
+
+t_env *copy_env(char **env)
+{
+	int i;
+	t_env *cpy;
+
+	if (!env)
+		return (NULL);
+	cpy = NULL;
+	i = 0;
+	while (env[i])
+	{
+		env_add_back(&cpy, new_env(ft_substr(env[i], 0, ft_strchri(env[i], '=')), NULL, 1));
+		i++;
+	}
+	return (cpy);
+}
+
+
 int	main(int ac, char **av, char **env)
 {
 	t_minishell *minishell;
 	t_exec		data;
-	//char		*str;
-	//t_pretoken	*pretokens;
-	//t_token		*tokens;
-	//t_node_ast	*ast;
 
 	(void)ac;
 	(void)av;
+	
 	g_status = 0;
-	minishell = ft_calloc(1, sizeof(minishell));
+	minishell = malloc(sizeof(minishell));
 	if (!minishell)
 		return (1);
 	while (1)
 	{
 		minishell->cmd_line = readline("minishell$ ");
-		if (!minishell->cmd_line)
+		if (!minishell->cmd_line || !*minishell->cmd_line)
 			continue ;
 		if (*minishell->cmd_line)
 			add_history(minishell->cmd_line);
@@ -137,7 +185,7 @@ int	main(int ac, char **av, char **env)
 		}
 		// display_tokens(minishell->tokens);
 		minishell->ast = parser(minishell->tokens);
-		init_data(&data, env);
+		init_data(&data, copy_env(env));
 		exec(minishell->ast, &data);
 		if (minishell->ast->type == T_CMD)
 			g_status = wait_commands(&data);
