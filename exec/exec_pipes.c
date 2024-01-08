@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 01:18:40 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/08 21:26:51 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,23 @@ int	child_pipes(t_exec *data, int is_end)
 	return (EXIT_SUCCESS);
 }
 
-void	exec_pipe(t_node_ast *node, t_exec *data, int is_end)
+void	exec_pipe(t_node_ast *node, t_exec *data, int is_end, t_minishell *minishell)
 {
-	node->args[0] = get_valid_path(get_path(data->env), node->args[0]);
+	get_redirs(node->redirs, data);
+	if (data->fd_in == REDIR_HEREDOC)
+		init_heredoc(data);
+	if (!is_builtin(node->args[0]))
+		node->args[0] = get_valid_path(get_path(data->env), node->args[0]);
+	if (node->args[0] == NULL || (!is_builtin(node->args[0]) && access(node->args[0], F_OK | X_OK) == -1))
+	{
+		g_status = 127;
+		if (!node->args[0])
+			return ;
+		dprintf(2, "minishell: %s: %s\n", node->args[0], strerror(errno));
+		close(data->pipe[0]);
+		close(data->pipe[1]);
+		return ;
+	}
 	if (pipe(data->pipe) == -1)
 		return ;
 	data->pid = fork();
@@ -50,11 +64,11 @@ void	exec_pipe(t_node_ast *node, t_exec *data, int is_end)
 		return ;
 	if (data->pid == 0)
 	{
-		get_redirs(node->redirs, data);
-		if (data->fd_in == REDIR_HEREDOC)
-			init_heredoc(data);
 		child_pipes(data, is_end);
-		execve(node->args[0], node->args, tab_env(data->env));
+		if (is_builtin(node->args[0]))
+			exec_builtin(node->args, minishell);
+		else
+			execve(node->args[0], node->args, tab_env(data->env));
 		exit(data->ret_value);
 	}
 	else
@@ -66,22 +80,22 @@ void	exec_pipe(t_node_ast *node, t_exec *data, int is_end)
 	}
 }
 
-void	exec_pipeline(t_node_ast *node, t_exec *data)
+void	exec_pipeline(t_node_ast *node, t_exec *data, t_minishell *minishell)
 {
 	if (node->left_child->type == T_PIPE)
-		exec_pipeline(node->left_child, data);
+		exec_pipeline(node->left_child, data, minishell);
 	if (node->left_child->type == T_CMD)
-		exec_pipe(node->left_child, data, 0);
+		exec_pipe(node->left_child, data, 0, minishell);
 	if (node->right_child->type == T_CMD)
-		exec_pipe(node->right_child, data, 0);
+		exec_pipe(node->right_child, data, 0, minishell);
 }
 
-int	exec_master_pipe(t_node_ast *node, t_exec *data)
+int	exec_master_pipe(t_node_ast *node, t_exec *data, t_minishell *minishell)
 {
 	if (node->left_child->type == T_CMD)
 	{
-		exec_pipe(node->left_child, data, 0);
-		exec_pipe(node->right_child, data, 1);
+		exec_pipe(node->left_child, data, 0, minishell);
+		exec_pipe(node->right_child, data, 1, minishell);
 		g_status = wait_commands(data);
 		close(data->pipe[0]);
 		close(data->pipe[1]);
@@ -90,8 +104,8 @@ int	exec_master_pipe(t_node_ast *node, t_exec *data)
 	}
 	else if (node->left_child->type == T_PIPE)
 	{
-		exec_pipeline(node->left_child, data);
-		exec_pipe(node->right_child, data, 1);
+		exec_pipeline(node->left_child, data, minishell);
+		exec_pipe(node->right_child, data, 1, minishell);
 		g_status = wait_commands(data);
 		close(data->pipe[0]);
 		close(data->pipe[1]);
@@ -101,8 +115,8 @@ int	exec_master_pipe(t_node_ast *node, t_exec *data)
 	else
 	{
 		data->is_pipe = 1;
-		exec(node->left_child, data);
-		exec_pipe(node->right_child, data, 1);
+		exec(node->left_child, data, minishell);
+		exec_pipe(node->right_child, data, 1, minishell);
 		data->is_pipe = 0;
 		g_status = wait_commands(data);
 		close(data->pipe[0]);

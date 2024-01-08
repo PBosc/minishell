@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:21:46 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/06 17:54:50 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 21:17:34 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,16 @@ void	get_redirs(t_redir_list *redirs, t_exec *data)
 	data->fd_in = get_fd_in(redirs, data);
 	if (data->fd_in == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: No such file or directory\n",
-			redirs->file);
+		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n",
+			redirs->file, strerror(errno));
 		g_status = 1;
 		return ;
 	}
 	data->fd_out = get_fd_out(redirs);
 	if (data->fd_out == -1)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: %s: No such file or directory\n",
-			redirs->file);
+		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n",
+			redirs->file, strerror(errno));
 		g_status = 1;
 		return ;
 	}

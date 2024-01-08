@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 05:49:14 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/08 21:48:40 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,20 +159,22 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	
-	g_status = 0;
 	minishell = ft_calloc(1, sizeof(t_minishell));
 	if (!minishell)
 		return (1);
+	minishell->env = copy_env(env);
 	while (1)
 	{
+		signal(SIGINT, sig_handler);
+		signal(SIGQUIT, sig_handler);
+		signal(SIGTSTP, sig_handler);
 		minishell->cmd_line = readline("minishell$ ");
 		if (!minishell->cmd_line || !*minishell->cmd_line)
 			continue ;
 		if (*minishell->cmd_line)
 			add_history(minishell->cmd_line);
-		if (!ft_strcmp(minishell->cmd_line, "exit"))
-			return (0);
-		minishell->env = copy_env(env);
+		// if (!ft_strcmp(minishell->cmd_line, "exit"))
+		// 	return (0);
 		//init_minishell(minishell);
 		minishell->pretokens = pretokenization(minishell->cmd_line);
 		//display_pretokens(minishell->pretokens);
@@ -196,12 +198,12 @@ int	main(int ac, char **av, char **env)
 		// }
 		// display_tokens(minishell->tokens);
 		init_data(&data, minishell->env);
-		exec(minishell->ast, &data);
-		if (minishell->ast->type == T_CMD)
-			g_status = wait_commands(&data);
+		exec(minishell->ast, &data, minishell);
+		// if (minishell->ast->type == T_CMD)
+		// 	wait_commands(&data);
 		// display_ast(minishell->ast);
 		clear_ast(&(minishell->ast));
-		// printf("g_status = %d\n", g_status);
+		printf("g_status = %d\n", g_status);
 	}
 	return(0);
 }

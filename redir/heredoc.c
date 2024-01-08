@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/07 20:54:48 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 19:46:58 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	is_limit(char *line, char *limiter)
 {
 	int	length;
 
-	length = ft_strlen(line) - 1;
+	length = ft_strlen(limiter);
 	if (line[0] == '\n')
 		return (0);
 	return (ft_strncmp(line, limiter, length) == 0
@@ -102,7 +102,7 @@ int	read_here_doc(t_hered **here_doc, t_exec *data)
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			return (get_next_line(-42), perror("malloc"), 0);
-		// line = expanded_heredoc(line);
+		line = expanded_heredoc(line);
 		if (is_limit(line, data->limiter))
 			return (get_next_line(-42), free(line), 1);
 		if (!ft_lstpush_back(here_doc, line))
@@ -145,7 +145,7 @@ int	init_heredoc(t_exec *data)
 		return (perror("pipe"), 0);
 	heredoc = NULL;
 	ret = read_here_doc(&heredoc, data);
-	free(data->limiter);
+	// free(data->limiter);
 	if (ret == 0)
 		return (0);
 	child_pid = fork();

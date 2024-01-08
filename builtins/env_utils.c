@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:23 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 05:00:06 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/08 20:34:35 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#import "parsing.h"
+#include "parsing.h"
 
 void display_env(t_env *env)
 {

@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/25 14:54:49 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 21:46:05 by pibosc           ###   ########.fr       */
+/*   Created: 2024/01/08 21:40:45 by pibosc            #+#    #+#             */
+/*   Updated: 2024/01/08 21:50:50 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include <signal.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "exec.h"
-# include "parsing.h"
-# include "ft_dprintf.h"
-
-extern int g_status;
-
-void	sig_handler(int sig);
-
-#endif
+void	sig_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_dprintf(2, "\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else if (sig == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_replace_line("\\^", 0);
+		rl_redisplay();
+	}
+}
