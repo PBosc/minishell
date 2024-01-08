@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 22:37:30 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 23:26:02 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,8 @@ int	main(int ac, char **av, char **env)
 		signal(SIGINT, sig_handler);
 		signal(SIGQUIT, SIG_IGN);
 		minishell->cmd_line = readline("minishell$ ");
+		if (!minishell->cmd_line)
+			return (ft_dprintf(2, "exit\n"), 0);
 		if (!minishell->cmd_line || !*minishell->cmd_line)
 			continue ;
 		if (*minishell->cmd_line)
@@ -198,9 +200,6 @@ int	main(int ac, char **av, char **env)
 		// display_tokens(minishell->tokens);
 		init_data(&data, minishell->env);
 		exec(minishell->ast, &data, minishell);
-		// if (minishell->ast->type == T_CMD)
-		// 	wait_commands(&data);
-		// display_ast(minishell->ast);
 		clear_ast(&(minishell->ast));
 		printf("g_status = %d\n", g_status);
 	}

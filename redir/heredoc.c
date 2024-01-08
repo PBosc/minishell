@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 22:30:12 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 23:22:30 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ int	init_heredoc(t_exec *data)
 		return (perror("pipe"), 0);
 	heredoc = NULL;
 	ret = read_here_doc(&heredoc, data);
-	// free(data->limiter);
 	if (ret == 0)
 		return (0);
 	child_pid = fork();
