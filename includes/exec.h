@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 21:10:44 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 22:43:53 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <errno.h>
 
 # define REDIR_HEREDOC -42
-# define BUFFER_SIZE 1024
+# define BUFFER_SIZE 1
 
 typedef struct s_exec {
 	int		status;
@@ -96,6 +96,6 @@ int		export(char **args, t_minishell *minishell);
 int		pwd(char **args, t_minishell *minishell);
 int		unset(char **args, t_minishell *minishell);
 int		is_builtin(char *cmd);
-void	exec_builtin(char **args, t_minishell *minishell);
+int		exec_builtin(char **args, t_minishell *minishell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:47:22 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/06 16:48:10 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 22:22:52 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ static char	*get_end(char *str)
 	tmp = ft_strchr(str, '\n');
 	if (!tmp)
 		return (free(str), NULL);
-	while (str[i] && str[i] != '\n')
+	while (str && str[i] && str[i] != '\n')
 		i++;
 	end = malloc(ft_strlen(str) - i);
 	if (!end)
 		return (NULL);
 	tmp++;
 	i = 0;
-	while (*tmp)
+	while (tmp && *tmp)
 		end[i++] = *tmp++;
 	end[i] = 0;
 	return (free(str), end);

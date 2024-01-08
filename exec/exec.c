@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:13:06 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 21:29:45 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 22:48:48 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,23 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	exec_builtin(char **args, t_minishell *minishell)
+int	exec_builtin(char **args, t_minishell *minishell)
 {
 	if (ft_strcmp(args[0], "echo") == 0)
-		echo(args + 1);
+		g_status = echo(args + 1);
 	else if (ft_strcmp(args[0], "cd") == 0)
-		cd(args + 1, minishell);
+		g_status = cd(args + 1, minishell);
 	else if (ft_strcmp(args[0], "pwd") == 0)
-		pwd(args + 1, minishell);
+		g_status = pwd(args + 1, minishell);
 	else if (ft_strcmp(args[0], "export") == 0)
-		export(args + 1, minishell);
+		g_status = export(args + 1, minishell);
 	else if (ft_strcmp(args[0], "unset") == 0)
-		unset(args + 1, minishell);
+		g_status = unset(args + 1, minishell);
 	else if (ft_strcmp(args[0], "env") == 0)
-		env(minishell);
+		g_status = env(minishell);
 	else if (ft_strcmp(args[0], "exit") == 0)
-		exit_minishell(args + 1, minishell);
+		g_status = exit_minishell(args + 1, minishell);
+	return (g_status);
 }
 
 void	init_jump_table(t_fct_ptr (*exec_fct)[4])

@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 21:34:24 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 22:16:04 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
 {
 	if (data->is_pipe)
 		return (exec_pipe(node, data, 0, minishell), 0);
+	get_redirs(node->redirs, data);
+	if (!node->args)
+	{
+		if (data->fd_in == REDIR_HEREDOC)
+			init_heredoc(data);
+		g_status = 0;
+		return (g_status);
+	}
 	if (pipe(data->pipe) == -1)
 		return (EXIT_FAILURE);
 	if (!is_builtin(node->args[0]))
@@ -89,7 +97,6 @@ int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
 		return (EXIT_FAILURE);
 	if (data->pid == 0)
 	{
-		get_redirs(node->redirs, data);
 		child_fds(data);
 		if (!data->is_pipe)
 			close(data->pipe[1]);

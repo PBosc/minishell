@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 19:46:58 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 22:30:12 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,14 @@ int	read_here_doc(t_hered **here_doc, t_exec *data)
 
 	while (1)
 	{
-		ft_putstr_fd("> ", STDIN_FILENO);
-		line = get_next_line(STDIN_FILENO);
+		line = ft_strjoin(readline("> "), "\n");
 		if (!line)
-			return (get_next_line(-42), perror("malloc"), 0);
+			return (perror("malloc"), 0);
 		line = expanded_heredoc(line);
 		if (is_limit(line, data->limiter))
-			return (get_next_line(-42), free(line), 1);
+			return (free(line), 1);
 		if (!ft_lstpush_back(here_doc, line))
-			return (free(line),
-				get_next_line(-42), perror("malloc list"), 0);
+			return (free(line), perror("malloc list"), 0);
 		free(line);
 	}
 	return (0);
@@ -154,6 +152,7 @@ int	init_heredoc(t_exec *data)
 	if (child_pid == 0)
 		child_heredoc(heredoc, data);
 	close(data->pipe[1]);
+	free_heredoc(heredoc);
 	data->prev_pipe = data->pipe[0];
 	return (1);
 }
