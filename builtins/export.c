@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:07 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/06 23:11:37 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 00:33:09 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int export_one(char *arg, t_minishell *minishell)
 {
     int i;
 
+    if (ft_strchri(arg, '=') == -1)
+        return (0);
     i = 0;
     while (i < ft_strchri(arg, '='))
     {
@@ -36,8 +38,10 @@ int export_one(char *arg, t_minishell *minishell)
             return (ft_dprintf(2,"bash: export: `%s'" , arg), 1);
         i++;
     }
+    if (!arg[ft_strchri(arg, '=') + 1])
+        return (0);
     update_env(ft_substr(arg, 0, ft_strchri(arg, '=')), ft_substr(arg, ft_strchri(arg, '='), ft_strlen(arg)), minishell->env);
-    return (1);
+    return (0);
 }
 
 int export(char **args, t_minishell *minishell)

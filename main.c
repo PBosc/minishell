@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 23:26:02 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/09 00:33:39 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_env *new_env(char *key, char *value, int i)
 		return (NULL);
 	new->key = key;
 	if (i)
-		new->value = getenv(key);
+		new->value = ft_strdup(getenv(key));
 	else
 		new->value = value;
 	new->next_env = NULL;
