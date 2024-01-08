@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 16:41:31 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 01:26:06 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/08 04:14:56 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*get_valid_path(char **paths, char *cmd)
 	i = 0;
 	if (cmd[0] == '.' || cmd[0] == '/')
 		return (cmd);
-	while (paths)
+	while (paths[i])
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		cmd_path = ft_strjoin(tmp, cmd);

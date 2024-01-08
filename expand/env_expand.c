@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:22 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/06 23:23:32 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/08 05:04:31 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,81 +58,44 @@ int	is_empty_next(t_pretoken *pretoken)
 	return (0);
 }
 
-// char	*expanded_env(char *str, t_pretoken *pretoken, t_minishell *minishell)
+char	*expanded_env(char *str, t_pretoken *pretoken, t_minishell *minishell)
+{
+	int		i;
+	char	*name;
+	char	*env_value;
+
+	i = 0;
+	name = get_name(str, &i);
+	if (!name)
+		return (str);
+	if (!ft_strlen(name))
+	{
+		if (is_empty_next(pretoken))
+			return (ft_strdup(""));
+		else
+			return (ft_strdup("$"));
+	}
+    //display_env(minishell->env);
+    // printf("NAME : %s\n", name);
+	env_value = get_env(name, minishell->env);
+    // printf("ENV_VALUE : %s\n", env_value);
+	if (!env_value && !str[i])
+		return (ft_strdup(""));
+	if (!env_value)
+		return (ft_strjoin(ft_substr(str, 0, ft_strchri(str, '$')),
+				expanded_env(str + i, pretoken, minishell)));
+	return (ft_strjoin(ft_strjoin(ft_substr(str, 0, ft_strchri(str, '$')),
+				env_value), expanded_env(str + i, pretoken, minishell)));
+}
+
+
+// char* expand_variables(char* input, t_minishell *minishell)
 // {
-// 	int		i;
-// 	char	*name;
-// 	char	*env_value;
-
-// 	i = 0;
-// 	name = get_name(str, &i);
-// 	if (!name)
-// 		return (str);
-// 	if (!ft_strlen(name))
-// 	{
-// 		if (is_empty_next(pretoken))
-// 			return (ft_strdup(""));
-// 		else
-// 			return (ft_strdup("$"));
-// 	}
-// 	env_value = get_env(name, minishell->env);
-// 	if (!env_value && !str[i])
-// 		return (NULL);
-// 	if (!env_value)
-// 		return (ft_strjoin(ft_substr(str, 0, ft_strchri(str, '$')),
-// 				expanded_env(str + i, pretoken)));
-// 	return (ft_strjoin(ft_strjoin(ft_substr(str, 0, ft_strchri(str, '$')),
-// 				env_value), expanded_env(str + i, pretoken)));
+//     char *res;
 // }
-
-char* expand_variables(const char* input);
-
 
 void	expand_env(t_pretoken *pretoken, t_minishell *minishell)
 {
-	(void)minishell;
-	pretoken->content = expand_variables(pretoken->content);
+	pretoken->content = expanded_env(pretoken->content, pretoken, minishell);
 }
-/*
-! a normer de toute urgence
-*/
-char* expand_variables(const char* input) {
-    size_t bufferSize = strlen(input) + 1;
-    char* result = malloc(bufferSize);
-    if (result == NULL) return NULL;
 
-    const char* p = input;
-    char* q = result;
-
-    while (*p != '\0') {
-        if (*p == '$' && isalpha(*(p + 1))) {  // Check for valid variable name start
-            const char* start = p + 1;
-            while (isalnum(*start) || *start == '_') start++;
-
-            char varName[start - p];
-            strncpy(varName, p + 1, start - p - 1);
-            varName[start - p - 1] = '\0';
-
-            char* varValue = getenv(varName);
-            if (varValue != NULL) {
-                size_t extraLength = strlen(varValue);
-                char* temp = realloc(result, bufferSize + extraLength);
-                if (temp == NULL) {
-                    free(result);
-                    return NULL;
-                }
-                result = temp;
-                bufferSize += extraLength;
-
-                strcpy(q, varValue);
-                q += extraLength;
-            }
-            p = start;
-        } else {
-            *q++ = *p++;
-        }
-    }
-
-    *q = '\0';
-    return result;
-}

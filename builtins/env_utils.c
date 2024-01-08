@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:23 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/06 23:08:08 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/08 05:00:06 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void display_env(t_env *env)
 {
 	if (!env)
+    {
+        printf("rien\n");
 		return ;
+    }
 	while (env)
 	{
 		printf("%s=%s\n", env->key, env->value);

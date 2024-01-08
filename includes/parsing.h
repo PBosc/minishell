@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 01:05:53 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/08 04:52:02 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ void					expand_env(t_pretoken *pretoken,
 void					expand_wildcard(t_pretoken *pretoken);
 void					expand_pretokens(t_pretoken *pretokens,
 							t_minishell *minishell);
+char					*get_env(char *key, t_env *env);
+
 /*Redirections*/
 int						add_redir(t_node_ast *node, t_token **token);
 t_redir_list			*create_redir(t_redir_type type, char *file);
@@ -164,6 +166,7 @@ void					delete_env(char *key, t_env *env,
 							t_minishell *minishell);
 t_env					*new_env(char *key, char *value, int i);
 char					*get_name(char *str, int *ptr_i);
+void					display_env(t_env *env);
 
 /*Libft functions*/
 char					*ft_strchr(char *s, char c);
@@ -182,7 +185,6 @@ size_t					ft_strlcpy(char *dst, char *src, size_t size);
 int						ft_isatoi(char *str);
 int						ft_atoi(const char *str);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
-char					*get_env(char *key, t_env *env);
 int						ft_isalpha(int c);
 
 /*Free and error handling functions*/

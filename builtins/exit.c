@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:03 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/06 23:10:55 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/08 04:52:28 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void clear_exit(t_minishell *minishell)
 {
-    (void)minishell;
+    clear_ast(&minishell->ast);
+    free(minishell);
 }
 
 int    exit_minishell(char **tab, t_minishell *minishell)

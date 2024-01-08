@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 01:40:17 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/08 05:49:14 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ t_env *copy_env(char **env)
 }
 
 
+
 int	main(int ac, char **av, char **env)
 {
 	t_minishell *minishell;
@@ -159,7 +160,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	
 	g_status = 0;
-	minishell = malloc(sizeof(minishell));
+	minishell = ft_calloc(1, sizeof(t_minishell));
 	if (!minishell)
 		return (1);
 	while (1)
@@ -171,21 +172,30 @@ int	main(int ac, char **av, char **env)
 			add_history(minishell->cmd_line);
 		if (!ft_strcmp(minishell->cmd_line, "exit"))
 			return (0);
-		// printf("%s\n\n", minishell->cmd_line);
+		minishell->env = copy_env(env);
+		//init_minishell(minishell);
 		minishell->pretokens = pretokenization(minishell->cmd_line);
-		//display_pretokens(pretokens);
-		//printf("VALID SYNTAX %s\n\n", check_syntax(pretokens) ? "yes" : "no");
-		// expand_pretokens(minishell->pretokens, minishell);
-		//display_pretokens(pretokens);
+		//display_pretokens(minishell->pretokens);
+		//display_env(minishell)
+		expand_pretokens(minishell->pretokens, minishell);
+		//display_pretokens(minishell->pretokens);
 		minishell->tokens = tokenization(minishell->pretokens);
-    	if (!minishell->tokens)
+		if (!minishell->tokens)
 		{
-			printf("OLALA\n");
+			printf("Aucun token renvoye\n");
 			continue ;
 		}
-		// display_tokens(minishell->tokens);
 		minishell->ast = parser(minishell->tokens);
-		init_data(&data, copy_env(env));
+		// printf("%s\n\n", minishell->cmd_line);
+		//display_pretokens(pretokens);
+		//printf("VALID SYNTAX %s\n\n", check_syntax(pretokens) ? "yes" : "no");
+    	// if (!minishell->tokens)
+		// {
+		// 	printf("OLALA\n");
+		// 	continue ;
+		// }
+		// display_tokens(minishell->tokens);
+		init_data(&data, minishell->env);
 		exec(minishell->ast, &data);
 		if (minishell->ast->type == T_CMD)
 			g_status = wait_commands(&data);
