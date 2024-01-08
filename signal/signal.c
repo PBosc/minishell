@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 21:40:45 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 21:50:50 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/08 21:55:24 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@ void	sig_handler(int sig)
 		ft_dprintf(2, "\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_replace_line("\\^", 0);
 		rl_redisplay();
 	}
 }
