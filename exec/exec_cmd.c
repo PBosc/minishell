@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 22:16:04 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/09 07:01:28 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	wait_commands(t_exec *exec)
 		if (WIFEXITED(exec->status))
 		{
 			g_status = WEXITSTATUS(exec->status);
-			printf("exit status: %d\n", g_status);
+			//printf("exit status: %d\n", g_status);
 		}
 		else
 			g_status = 128 + WTERMSIG(exec->status);
@@ -67,7 +67,7 @@ void	child_fds(t_exec *data)
 }
 
 int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
-{
+{	
 	if (data->is_pipe)
 		return (exec_pipe(node, data, 0, minishell), 0);
 	get_redirs(node->redirs, data);

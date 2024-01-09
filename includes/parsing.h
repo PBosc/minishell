@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 04:52:02 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 06:34:22 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ void					delete_env(char *key, t_env *env,
 t_env					*new_env(char *key, char *value, int i);
 char					*get_name(char *str, int *ptr_i);
 void					display_env(t_env *env);
+char					*ft_itoa(int n);
 
 /*Libft functions*/
 char					*ft_strchr(char *s, char c);
@@ -192,6 +193,7 @@ void					clear_pretokens(t_pretoken **pretokens);
 void					clear_tokens(t_token **tokens);
 void					clear_tab(char **tab);
 void					clear_redirs(t_redir_list **redirs);
+void					clear_env(t_env **env);
 void					clear_ast(t_node_ast **ast);
 void					move_def(t_pretoken **pretoken, int i);
 void					move_def_token(t_token **token, int i);

@@ -6,11 +6,11 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:23 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 00:32:40 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 06:34:39 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 void display_env(t_env *env)
 {
@@ -30,6 +30,8 @@ char *get_env(char *key, t_env *env)
 {
     if (!env)
         return (NULL);
+    if (!ft_strcmp(key, "?"))
+        return (ft_itoa(g_status));
     while (env)
     {
         if (!ft_strcmp(env->key, key))

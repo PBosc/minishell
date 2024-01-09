@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:59:08 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 01:23:30 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 05:13:39 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char *get_one(t_env *env)
 {
 	char *res;
 
-	res = ft_strjoin_free(env->key, "=");
+	res = ft_strjoin(env->key, "=");
 	res = ft_strjoin_free(res, env->value);
 	return (res);
 }

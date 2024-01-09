@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 00:50:04 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 04:34:50 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 06:25:40 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,48 @@
 	TODO CA MARCHE PAS LES QUOTES ATTENTION
 */
 
-int	check_quotes(char *str)
+int check_quotes(char *str)
 {
-	int		i;
-	char	c;
+    int single_quote;
+	int double_quote;
+	int i;
 
+	single_quote = 0;
+	double_quote = 0;
 	i = 0;
-	while (str[i])
+    while (str[i])
 	{
-		if (str[i] == 39 || str[i] == 34)
-		{
-			c = str[i];
-			while (str[++i] && str[i] != c)
-				i++;
-			if (!str[i])
-				return (0);
-			i++;
-		}
-		else
-			i++;
-	}
-	return (1);
+        if (str[i] == '"' && !single_quote)
+            double_quote = !double_quote;
+        else if (str[i] == '\'' && !double_quote)
+            single_quote = !single_quote;
+		i++;
+    }
+    return (!single_quote && !double_quote);
 }
+
+// int	check_quotes(char *str)
+// {
+// 	int		i;
+// 	char	c;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == 39 || str[i] == 34)
+// 		{
+// 			c = str[i];
+// 			while (str[++i] && str[i] != c)
+// 				i++;
+// 			if (!str[i])
+// 				return (0);
+// 			i++;
+// 		}
+// 		else
+// 			i++;
+// 	}
+// 	return (1);
+// }
 
 t_pretoken	*last_pretoken(t_pretoken *pretoken)
 {
@@ -109,13 +129,13 @@ t_pretoken	*pretokenization(char *str)
 	i = 0;
 	if (!str)
 		return (NULL);
-	// if (!check_quotes(str))
-	// 	return (ft_dprintf(2, "minishell: syntax error because of unclosed quote\n"), NULL);
+	if (!check_quotes(str))
+		return (ft_dprintf(2, "minishell: syntax error because of unclosed quote\n"), NULL);
 	pretokens = NULL;
 	while (str[i])
 	{
 		if (!match_pretokens(&pretokens, str, &i))
-			return (clear_pretokens(&pretokens), NULL);
+			return (clear_pretokens(&pretokens), ft_dprintf(2, "Malloc error\n"), NULL);
 	}
 	return (pretokens);
 }

@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:29 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/05 18:22:18 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 05:00:35 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,15 @@ void	expand_wildcard(t_pretoken *pretoken)
 	t_pretoken *new;
 
 	tab = expanded_wildcard(pretoken);
-	if (!tab && ft_strchr(pretoken->content, '*'))
+	if (!tab && ft_strchri(pretoken->content, '*') != -1)
 	{
 		free(pretoken->content);
 		pretoken->content = ft_strdup("");
 		return ;
 	}
-	if (!tab)
+	if (!tab && ft_strchri(pretoken->content, '*') == -1)
 		return ;
 	i = 0;
-	display_tab(tab);
 	while (tab[i] && tab[i + 1])
 	{
 		new = new_pretoken(tab[i], WORD);

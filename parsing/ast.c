@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 21:00:44 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/05 15:22:33 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 05:39:47 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ t_node_ast	*parse_term(t_token **token)
 
 	if ((*token)->type == OPEN_P)
 	{
-		move_def_token(token, 0);
+		move_def_token(token, 1);
 		parsed = parse_expression(token, 0);
-		move_def_token(token, 0);
+		move_def_token(token, 1);
 		return (parsed);
 	}
 	else

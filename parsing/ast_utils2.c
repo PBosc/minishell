@@ -6,11 +6,11 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 22:28:07 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/02 03:01:02 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 05:20:04 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 int	plen(char **map)
 {

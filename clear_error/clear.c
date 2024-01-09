@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 04:19:55 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/05 15:10:08 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 05:55:08 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,28 @@ void	clear_tab(char **tab)
 {
 	int	i;
 
-	if (!tab || !*tab)
+	if (!tab)
 		return ;
 	i = 0;
 	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
+		free(tab[i++]);
 	free(tab);
+}
+
+void	clear_env(t_env **env)
+{
+	t_env	*tmp;
+
+	if (!env || !*env)
+		return ;
+	while (*env)
+	{
+		tmp = (*env)->next_env;
+		free((*env)->key);
+		free((*env)->value);
+		free(*env);
+		*env = tmp;
+	}
 }
 
 void	clear_redirs(t_redir_list **redirs)

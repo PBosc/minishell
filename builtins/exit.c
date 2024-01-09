@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:03 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 20:16:02 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/09 06:00:20 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void clear_exit(t_minishell *minishell)
 {
     clear_ast(&minishell->ast);
+	clear_env(&(minishell->env));
     free(minishell);
 }
 

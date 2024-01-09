@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 00:33:39 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 06:42:35 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,6 @@ int	main(int ac, char **av, char **env)
 			add_history(minishell->cmd_line);
 		// if (!ft_strcmp(minishell->cmd_line, "exit"))
 		// 	return (0);
-		//init_minishell(minishell);
 		minishell->pretokens = pretokenization(minishell->cmd_line);
 		//display_pretokens(minishell->pretokens);
 		//display_env(minishell)
@@ -189,6 +188,9 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		minishell->ast = parser(minishell->tokens);
+		//display_ast(minishell->ast);
+		// clear_ast(&(minishell->ast));
+		// exit(g_status);
 		// printf("%s\n\n", minishell->cmd_line);
 		//display_pretokens(pretokens);
 		//printf("VALID SYNTAX %s\n\n", check_syntax(pretokens) ? "yes" : "no");
@@ -201,7 +203,8 @@ int	main(int ac, char **av, char **env)
 		init_data(&data, minishell->env);
 		exec(minishell->ast, &data, minishell);
 		clear_ast(&(minishell->ast));
-		printf("g_status = %d\n", g_status);
+		//printf("g_status = %d\n", g_status);
+		// exit(g_status);
 	}
 	return(0);
 }
