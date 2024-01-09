@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:59:08 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/09 05:13:39 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:19:46 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@ void	init_data(t_exec *data, t_env *env)
 	data->ret_value = EXIT_SUCCESS;
 }
 
-char *get_one(t_env *env)
+char	*get_one(t_env *env)
 {
-	char *res;
+	char	*res;
 
 	res = ft_strjoin(env->key, "=");
 	res = ft_strjoin_free(res, env->value);
 	return (res);
 }
 
-char **tab_env(t_env *env)
+char	**tab_env(t_env *env)
 {
-	char **res;
+	char	**res;
 
 	if (!env)
 		return (NULL);

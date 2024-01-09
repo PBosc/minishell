@@ -6,13 +6,13 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:13:06 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 22:56:13 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/09 11:18:51 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-int g_status;
+int	g_status;
 
 int	is_builtin(char *cmd)
 {

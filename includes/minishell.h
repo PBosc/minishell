@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:49 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/08 21:46:05 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/09 11:31:27 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include "parsing.h"
 # include "ft_dprintf.h"
 
-extern int g_status;
+extern int	g_status;
 
 void	sig_handler(int sig);
 

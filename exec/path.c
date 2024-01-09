@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 16:41:31 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/09 07:13:34 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:19:58 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void free_tab_2d(char **tab)
+void	free_tab_2d(char **tab)
 {
 	int	i;
 
