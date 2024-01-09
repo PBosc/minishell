@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:03:41 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/09 11:20:11 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/09 21:28:57 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 {
 	if (data->is_pipe)
 		return (exec_pipe(node, data, 0, minishell), 0);
-	get_redirs(node->redirs, data);
+	if (!get_redirs(node->redirs, data))
+		return (1);
 	if (!node->args)
 		return (handle_nocmd_heredoc(data));
 	if (pipe(data->pipe) == -1)
@@ -76,7 +77,8 @@ int	child_pipes(t_exec *data, int is_end)
 
 int	pipe_precheck(t_node_ast *node, t_exec *data)
 {
-	get_redirs(node->redirs, data);
+	if (!get_redirs(node->redirs, data))
+		return (1);
 	if (!node->args)
 	{
 		if (data->fd_in == REDIR_HEREDOC)

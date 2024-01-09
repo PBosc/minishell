@@ -6,67 +6,13 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 23:22:30 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/09 11:23:15 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "exec.h"
 #include "parsing.h"
-
-static int	is_limit(char *line, char *limiter)
-{
-	int	length;
-
-	length = ft_strlen(limiter);
-	if (line[0] == '\n')
-		return (0);
-	return (ft_strncmp(line, limiter, length) == 0
-		&& (line[length] == '\n'));
-}
-
-void	free_heredoc(t_hered *here_doc)
-{
-	t_hered	*tmp;
-
-	while (here_doc)
-	{
-		tmp = here_doc;
-		here_doc = here_doc->next;
-		free(tmp->line);
-		free(tmp);
-	}
-}
-
-t_hered	*ft_hered_last(t_hered *lst)
-{
-	if (!lst)
-		return (lst);
-	while (lst->next)
-	{
-		lst = lst->next;
-	}
-	return (lst);
-}
-
-static int	ft_lstpush_back(t_hered **lst, char *line)
-{
-	t_hered	*new;
-
-	new = malloc(sizeof(t_hered));
-	if (!new)
-		return (0);
-	new->line = ft_strdup(line);
-	new->next = NULL;
-	if (lst)
-	{
-		if (*lst)
-			ft_hered_last(*lst)->next = new;
-		else
-			*lst = new;
-	}
-	return (1);
-}
 
 char	*expanded_heredoc(char *str)
 {

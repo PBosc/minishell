@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/09 11:31:08 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/09 21:23:37 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	init_data(t_exec *data, t_env *env);
 
 //redirections
 
-void	get_redirs(t_redir_list *redirs, t_exec *data);
+int		get_redirs(t_redir_list *redirs, t_exec *data);
 int		read_here_doc(t_hered **here_doc, t_exec *data);
 int		write_here_doc(t_hered *here_doc, t_exec *data);
 int		init_heredoc(t_exec *data);
