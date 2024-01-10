@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:21:46 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/10 23:50:16 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 00:17:20 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int	get_infile(t_redir_list *redir, t_exec *data, char **infile)
 {
-	int				is_here_doc;
+	static int				is_here_doc = 0;
 
+	if (is_here_doc == 1)
+		read_here_doc(NULL, data);
 	is_here_doc = 0;
 	if (redir->type == R_IN)
 	{
