@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:03:41 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/10 20:11:25 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/10 23:28:07 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	handle_not_found(t_node_ast *node)
 {
 	g_status = 127;
-	if (!node->args[0])
+	if (!node->args[0] || !ft_strcmp(node->args[0], "placeholder1234"))
 		return (g_status);
 	dprintf(2, "minishell: %s: %s\n", node->args[0], strerror(errno));
 	return (1);
@@ -47,7 +47,7 @@ int	precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 		return (EXIT_FAILURE);
 	if (!is_builtin(node->args[0]))
 		node->args[0] = get_valid_path(get_path(data->env), node->args[0]);
-	if (node->args[0] == NULL
+	if (node->args[0] == NULL || !ft_strcmp(node->args[0], "placeholder1234")
 		|| (!is_builtin(node->args[0])
 			&& access(node->args[0], F_OK | X_OK) == -1))
 		return (handle_not_found(node));
@@ -90,7 +90,7 @@ int	pipe_precheck(t_node_ast *node, t_exec *data)
 		init_heredoc(data);
 	if (!is_builtin(node->args[0]))
 		node->args[0] = get_valid_path(get_path(data->env), node->args[0]);
-	if (node->args[0] == NULL
+	if (node->args[0] == NULL || !ft_strcmp(node->args[0], "placeholder1234")
 		|| (!is_builtin(node->args[0])
 			&& access(node->args[0], F_OK | X_OK) == -1))
 	{

@@ -6,33 +6,31 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 00:50:04 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 23:06:19 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:47:54 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-
-int check_quotes(char *str)
+int	check_quotes(char *str)
 {
-    int single_quote;
-	int double_quote;
-	int i;
+	int	single_quote;
+	int	double_quote;
+	int	i;
 
 	single_quote = 0;
 	double_quote = 0;
 	i = 0;
-    while (str[i])
+	while (str[i])
 	{
-        if (str[i] == '"' && !single_quote)
-            double_quote = !double_quote;
-        else if (str[i] == '\'' && !double_quote)
-            single_quote = !single_quote;
+		if (str[i] == '"' && !single_quote)
+			double_quote = !double_quote;
+		else if (str[i] == '\'' && !double_quote)
+			single_quote = !single_quote;
 		i++;
-    }
-    return (!single_quote && !double_quote);
+	}
+	return (!single_quote && !double_quote);
 }
-
 
 t_pretoken	*last_pretoken(t_pretoken *pretoken)
 {
@@ -43,7 +41,8 @@ t_pretoken	*last_pretoken(t_pretoken *pretoken)
 	return (pretoken);
 }
 
-void	add_pretoken(t_pretoken **pretoken, char *content, t_pretoken_type TYPE, int *led)
+void	add_pretoken(t_pretoken **pretoken, char *content, t_pretoken_type TYPE,
+		int *led)
 {
 	t_pretoken	*new;
 	t_pretoken	*last;
@@ -63,6 +62,7 @@ void	add_pretoken(t_pretoken **pretoken, char *content, t_pretoken_type TYPE, in
 	}
 	new->content = content;
 	new->type = TYPE;
+	new->wild = 0;
 	new->next_pretoken = NULL;
 	if (!(*pretoken))
 		*pretoken = new;
@@ -105,12 +105,14 @@ t_pretoken	*pretokenization(char *str)
 	if (!str)
 		return (NULL);
 	if (!check_quotes(str))
-		return (ft_dprintf(2, "minishell: syntax error because of unclosed quote\n"), NULL);
+		return (ft_dprintf(2,
+				"minishell: syntax error because of unclosed quote\n"), NULL);
 	pretokens = NULL;
 	while (str[i])
 	{
 		if (!match_pretokens(&pretokens, str, &i))
-			return (clear_pretokens(&pretokens), ft_dprintf(2, "Malloc error\n"), NULL);
+			return (clear_pretokens(&pretokens), ft_dprintf(2,
+					"Malloc error\n"), NULL);
 	}
 	return (pretokens);
 }

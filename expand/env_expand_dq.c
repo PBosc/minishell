@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:22 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 05:51:00 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:45:02 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*get_name_dq(char *str, int *ptr_i)
 {
-	char *name;
-	int len;
-	int j;
+	char	*name;
+	int		len;
+	int		j;
 
 	len = 0;
 	while (str[*ptr_i + len] && str[*ptr_i + len] != '$')
@@ -35,10 +35,10 @@ char	*get_name_dq(char *str, int *ptr_i)
 	return (name);
 }
 
-char *get_value_env_dq(char *name, t_minishell *minishell)
+char	*get_value_env_dq(char *name, t_minishell *minishell)
 {
-	char *res_env;
-	
+	char	*res_env;
+
 	if (!ft_strlen(name))
 	{
 		free(name);
@@ -48,35 +48,41 @@ char *get_value_env_dq(char *name, t_minishell *minishell)
 	free(name);
 	if (!res_env)
 		return (ft_strdup(""));
-	return(res_env);
+	return (res_env);
 }
 
-int get_len_dq(char *str, int i)
+int	get_len_dq(char *str, int i)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (str[i + len])
 	{
-		if (!len && !ft_isalpha(str[i + len]) && str[i + len] != '_' && (str[i + len] == '\'' || str[i + len] == '"'))
+		if (!len && str[i + len] == '?')
+		{
+			len++;
 			break ;
-		if (!len && !ft_isalpha(str[i + len]) && str[i + len] != '_' )
+		}
+		if (!len && !ft_isalpha(str[i + len]) && str[i + len] != '_' && (str[i
+					+ len] == '\'' || str[i + len] == '"'))
+			break ;
+		if (!len && !ft_isalpha(str[i + len]) && str[i + len] != '_')
 		{
 			len++;
 			break ;
 		}
 		else if (!ft_isalnum(str[i + len]) && str[i + len] != '_')
 			break ;
-		len ++;
+		len++;
 	}
 	return (len);
 }
 
 char	*get_name_env_dq(char *str, int *ptr_i, t_minishell *minishell)
 {
-	char *name_env;
-	int len;
-	int j;
+	char	*name_env;
+	int		len;
+	int		j;
 
 	*ptr_i = *ptr_i + 1;
 	len = get_len_dq(str, *ptr_i);
@@ -95,8 +101,8 @@ char	*get_name_env_dq(char *str, int *ptr_i, t_minishell *minishell)
 
 char	*expanded_env_dq(char *str, t_minishell *minishell)
 {
-	char *res;
-	int i;
+	char	*res;
+	int		i;
 
 	res = NULL;
 	i = 0;
@@ -110,17 +116,13 @@ char	*expanded_env_dq(char *str, t_minishell *minishell)
 	return (res);
 }
 
-
-
-
 void	expand_env_dq(t_pretoken *pretoken, t_minishell *minishell)
 {
-	char *tmp;
-	
+	char	*tmp;
+
 	if (!ft_strchr(pretoken->content, '$'))
 		return ;
 	tmp = pretoken->content;
 	pretoken->content = expanded_env_dq(pretoken->content, minishell);
 	free(tmp);
 }
-

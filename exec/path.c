@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 16:41:31 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/10 20:12:20 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/10 22:59:54 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*get_valid_path(char **paths, char *cmd)
 	char	*tmp;
 
 	if (!paths || (cmd[0] == '.' && cmd[1] == '/') || cmd[0] == '/')
-		return (cmd);
+		return (free_tab_2d(paths), cmd);
 	else if (!paths || !cmd[0])
 		return (free_tab_2d(paths), ft_dprintf(2, "minishell: %s: command not found\n", cmd), NULL);
 	i = 0;
@@ -64,12 +64,11 @@ char	*get_valid_path(char **paths, char *cmd)
 		free(cmd_path);
 		i++;
 	}
-	free_tab_2d(paths);
 	if (access(cmd, F_OK) == 0)
-		return (cmd);
+		return (free_tab_2d(paths), cmd);
 	ft_dprintf(2, "minishell: %s: command not found\n", cmd);
 	free(cmd);
-	return (NULL);
+	return (free_tab_2d(paths), ft_strdup("placeholder1234"));
 }
 
 char	**get_path(t_env *env)

@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:27 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 07:01:39 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:44:40 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char *	rm_quotes(char *str)
+char	*rm_quotes(char *str)
 {
 	char	*content_trim;
 	int		len;
@@ -44,7 +44,6 @@ char *	rm_quotes(char *str)
 	free(str);
 	return (content_trim);
 }
-
 
 void	expand_pretokens(t_pretoken *pretokens, t_minishell *minishell)
 {

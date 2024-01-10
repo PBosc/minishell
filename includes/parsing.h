@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 07:58:00 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:56:49 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_pretoken
 {
 	char				*content;
 	t_pretoken_type		type;
+	int					wild;
 	struct s_pretoken	*next_pretoken;
 }						t_pretoken;
 
@@ -122,7 +123,7 @@ int						check_syntax(t_pretoken *pretokens);
 void					syntax_error(t_pretoken *pretoken);
 
 /*Expand functions*/
-char *					rm_quotes(char *str);
+char					*rm_quotes(char *str);
 void					expand_env(t_pretoken *pretoken,
 							t_minishell *minishell);
 void					expand_env_dq(t_pretoken *pretoken,
@@ -204,6 +205,6 @@ void					move_def_token(t_token **token, int i);
 
 /*Debugging*/
 void					display_tab(char **tab);
-void	display_pretokens(t_pretoken *pretoken);
+void					display_pretokens(t_pretoken *pretoken);
 
 #endif

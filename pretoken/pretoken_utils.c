@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 04:29:19 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/05 14:51:35 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:48:06 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ char	*get_redir(char *str, int *i)
 	if ((str[*i] == '>' && str[*i + 1] != '>') || (str[*i] == '<' && str[*i
 				+ 1] != '<'))
 	{
-		//*i = *i + 1;
 		return (char_to_string(str[*i], i));
 	}
 	res = malloc(3);

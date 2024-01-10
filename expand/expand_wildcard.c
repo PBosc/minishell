@@ -6,11 +6,12 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:29 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 05:00:35 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:44:36 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
 /*
 	TODO remonter les mallocs errors
 */
@@ -62,10 +63,9 @@ int	is_match(char *s, char *p)
 	return (1);
 }
 
-
 char	**expanded_wildcard(t_pretoken *pretoken)
 {
-	char **tab;
+	char			**tab;
 	DIR				*dir;
 	struct dirent	*entry;
 
@@ -86,14 +86,14 @@ char	**expanded_wildcard(t_pretoken *pretoken)
 	return (tab);
 }
 
-
-
 void	expand_wildcard(t_pretoken *pretoken)
 {
-	char **tab;
-	int i;
-	t_pretoken *new;
+	char		**tab;
+	int			i;
+	t_pretoken	*new;
 
+	if (ft_strchri(pretoken->content, '*') == -1)
+		return ;
 	tab = expanded_wildcard(pretoken);
 	if (!tab && ft_strchri(pretoken->content, '*') != -1)
 	{
@@ -101,12 +101,11 @@ void	expand_wildcard(t_pretoken *pretoken)
 		pretoken->content = ft_strdup("");
 		return ;
 	}
-	if (!tab && ft_strchri(pretoken->content, '*') == -1)
-		return ;
 	i = 0;
 	while (tab[i] && tab[i + 1])
 	{
 		new = new_pretoken(tab[i], WORD);
+		new->wild = 1;
 		new->next_pretoken = pretoken->next_pretoken;
 		pretoken->next_pretoken = new;
 		i++;
@@ -116,5 +115,5 @@ void	expand_wildcard(t_pretoken *pretoken)
 		free(pretoken->content);
 		pretoken->content = tab[i];
 	}
+	free(tab);
 }
-

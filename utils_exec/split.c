@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 23:46:18 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/08 04:12:18 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:49:27 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,3 @@ char	**ft_split(char const *s, char c)
 	split[words] = NULL;
 	return (split);
 }
-
-
-

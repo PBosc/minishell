@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 02:29:24 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/06 21:03:34 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:49:52 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,17 @@ int	ft_isalnum(int c)
 	return (0);
 }
 
-int ft_isatoi_utils(int c)
+int	ft_isatoi_utils(int c)
 {
-	if ((c >= '0'&& c <= '9') || (c == 32 || (c >= 9 && c <= 13)) || c == '+' || c == '-')
+	if ((c >= '0' && c <= '9') || (c == 32 || (c >= 9 && c <= 13)) || c == '+'
+		|| c == '-')
 		return (1);
 	return (0);
 }
 
-int ft_isatoi(char *str)
+int	ft_isatoi(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str)
 		return (0);

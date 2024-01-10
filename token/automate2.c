@@ -6,18 +6,20 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 02:24:22 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/03 05:00:45 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:48:48 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void    syntax_error(t_pretoken *pretoken)
+void	syntax_error(t_pretoken *pretoken)
 {
-    if (!pretoken)
-        ft_dprintf(2, "minishell: syntax error near unexpected token 'newline'\n");
-    else
-        ft_dprintf(2, "minishell: syntax error near unexpected token '%s'\n", pretoken->content);
+	if (!pretoken)
+		ft_dprintf(2,
+			"minishell: syntax error near unexpected token 'newline'\n");
+	else
+		ft_dprintf(2, "minishell: syntax error near unexpected token '%s'\n",
+			pretoken->content);
 }
 
 int	q3(t_pretoken *pretokens, int i)

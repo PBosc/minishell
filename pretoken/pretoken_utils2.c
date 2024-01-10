@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 02:22:03 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/05 18:05:22 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:48:15 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*get_word(char *str, int *i)
 	while (str[*i + len] && !is_in_charset(str[*i + len], "|&><'\" ()"))
 		len++;
 	res = malloc(len + 1);
-    if (!res)
+	if (!res)
 		return (NULL);
 	while (j < len)
 	{
@@ -75,15 +75,16 @@ char	*get_word(char *str, int *i)
 	return (res);
 }
 
-t_pretoken *new_pretoken(char *content, t_pretoken_type type)
+t_pretoken	*new_pretoken(char *content, t_pretoken_type type)
 {
-	t_pretoken *new;
+	t_pretoken	*new;
 
 	new = malloc(sizeof(t_pretoken));
 	if (!new)
 		return (NULL);
 	new->content = content;
 	new->type = type;
+	new->wild = 0;
 	new->next_pretoken = NULL;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:34:16 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 06:33:56 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:49:45 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int	ft_atoi(const char *str)
 	return (nb * sign);
 }
 
-int ft_intlen(int n)
+int	ft_intlen(int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (n < 0)
@@ -55,11 +55,11 @@ int ft_intlen(int n)
 	return (i + 1);
 }
 
-void ft_strrev(char *str)
+void	ft_strrev(char *str)
 {
-	int i;
-	int j;
-	char tmp;
+	int		i;
+	int		j;
+	char	tmp;
 
 	i = 0;
 	j = ft_strlen(str) - 1;
@@ -73,11 +73,11 @@ void ft_strrev(char *str)
 	}
 }
 
-char *ft_itoa(int n)
+char	*ft_itoa(int n)
 {
-	char *str;
-	int i;
-	int sign;
+	char	*str;
+	int		i;
+	int		sign;
 
 	sign = 1;
 	i = 0;
