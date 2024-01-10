@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 07:00:54 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 07:58:00 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,5 +204,6 @@ void					move_def_token(t_token **token, int i);
 
 /*Debugging*/
 void					display_tab(char **tab);
+void	display_pretokens(t_pretoken *pretoken);
 
 #endif

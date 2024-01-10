@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:22 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 07:32:43 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 08:21:23 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,26 @@ int has_whitespace(char *str)
 	return (0);
 }
 
+t_pretoken *added_whitespace(t_pretoken *pretoken)
+{
+	t_pretoken *new;
 
+	new = malloc(sizeof(t_pretoken));
+	if (!new)
+		return (pretoken);
+	new->content = ft_strdup(" ");
+	new->type = WHITESPACE;
+	new->next_pretoken = pretoken;
+	return (new);
+}
+
+void	add_first_one(t_pretoken *pretoken, char **splitted, int *i)
+{
+	pretoken->content = splitted[*i];
+	if (splitted[*i + 1])
+		pretoken->next_pretoken = added_whitespace(pretoken->next_pretoken);
+	*i = *i + 1;
+}
 
 void	split_expand(char *res, t_pretoken *pretoken)
 {
@@ -150,18 +169,22 @@ void	split_expand(char *res, t_pretoken *pretoken)
 	if (!splitted)
 		return ;
 	i = 0;
-	pretoken->content = splitted[i++];
-	tmp = pretoken;
+	add_first_one(pretoken, splitted, &i);
+	tmp = pretoken->next_pretoken;
 	while (splitted[i])
 	{
 		new = new_pretoken(splitted[i], WORD);
 		if (!new)
 			return ;
-		new->next_pretoken = tmp->next_pretoken;
+		if (splitted[i + 1])
+			new->next_pretoken = added_whitespace(tmp->next_pretoken);
+		else
+			new->next_pretoken = tmp->next_pretoken;
 		tmp->next_pretoken = new;
 		tmp = new;
 		i++;
 	}
+	free(splitted);
 }
 
 
@@ -176,7 +199,7 @@ void	expand_env(t_pretoken *pretoken, t_minishell *minishell)
 	res = expanded_env(pretoken->content, pretoken, minishell);
 	if (*res == '\'' || *res == '"')
 		res = rm_quotes(res);
-	if (!has_whitespace(pretoken->content))
+	if (!has_whitespace(res))
 		pretoken->content = res;
 	else
 	{
