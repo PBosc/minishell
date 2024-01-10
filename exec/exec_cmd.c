@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/09 11:18:02 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/10 23:39:12 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
 
 	if (precheck(node, data, minishell))
 		return (EXIT_FAILURE);
+	signal(SIGINT, fork_sig_handler);
+	signal(SIGQUIT, fork_sig_handler);
 	data->pid = fork();
 	if (data->pid == -1)
 		return (EXIT_FAILURE);

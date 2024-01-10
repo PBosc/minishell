@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:03:41 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/10 23:28:07 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 23:43:41 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,13 @@ int	precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 
 int	child_pipes(t_exec *data, int is_end)
 {
+	(void)is_end;
 	if (data->fd_in != STDIN_FILENO && data->fd_in != REDIR_HEREDOC)
 		dup2(data->fd_in, STDIN_FILENO);
 	else if (data->prev_pipe != -1)
 		dup2(data->prev_pipe, STDIN_FILENO);
-	if (is_end)
-	{
-		if (data->fd_out != STDOUT_FILENO)
-			dup2(data->fd_out, STDOUT_FILENO);
-	}
+	if (data->fd_out != STDOUT_FILENO)
+		dup2(data->fd_out, STDOUT_FILENO);
 	else
 		dup2(data->pipe[1], STDOUT_FILENO);
 	if (data->prev_pipe != -1)

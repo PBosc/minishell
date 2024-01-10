@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/09 11:23:15 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/10 23:42:53 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,13 @@ int	read_here_doc(t_hered **here_doc, t_exec *data)
 
 	while (1)
 	{
-		line = ft_strjoin(readline("> "), "\n");
+		signal(SIGINT, heredoc_sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+		line = readline("> ");
 		if (!line)
-			return (perror("malloc"), 0);
+			return (ft_dprintf(2, "minishell: warning: here-document delimited by end-of-file \
+(wanted `%s`)\n", data->limiter), 0);
+		line = ft_strjoin(line, "\n");
 		line = expanded_heredoc(line);
 		if (is_limit(line, data->limiter))
 			return (free(line), 1);
