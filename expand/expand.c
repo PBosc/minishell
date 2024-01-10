@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:27 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 23:07:01 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 07:01:39 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,25 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-void	rm_quotes(t_pretoken *pretoken)
+char *	rm_quotes(char *str)
 {
 	char	*content_trim;
 	int		len;
 	int		i;
 
-	len = ft_strlen(pretoken->content);
+	len = ft_strlen(str);
 	content_trim = malloc(len - 1);
 	if (!content_trim)
-		return ;
+		return (NULL);
 	i = 0;
 	while (i < len - 2)
 	{
-		content_trim[i] = pretoken->content[i + 1];
+		content_trim[i] = str[i + 1];
 		i++;
 	}
 	content_trim[i] = 0;
-	free(pretoken->content);
-	pretoken->content = content_trim;
+	free(str);
+	return (content_trim);
 }
 
 
@@ -54,11 +54,11 @@ void	expand_pretokens(t_pretoken *pretokens, t_minishell *minishell)
 		if (pretokens->type == WORD)
 		{
 			if (pretokens->content[0] == '\'')
-				rm_quotes(pretokens);
+				pretokens->content = rm_quotes(pretokens->content);
 			else if (pretokens->content[0] == '"')
 			{
-				rm_quotes(pretokens);
-				expand_env(pretokens, minishell);
+				pretokens->content = rm_quotes(pretokens->content);
+				expand_env_dq(pretokens, minishell);
 			}
 			else
 			{

@@ -6,104 +6,183 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:22 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 23:28:32 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 07:32:43 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
-/*
-TODO case when env variable is a string with spaces
-	-> need to seperate the different words in tokens
-    suffit juste de split quand c pas expand de double quotes et faire
-    la meme que expand wildcard
-    + rajouter le $?
-    + recoder le getenv pcque ya moyen que l'env se refresh pas pendant lexec c sur meme
-*/
-char *get_name_utils(char *str, int i, int *ptr_i)
+
+int	is_emptyquote_next(t_pretoken *pretoken)
 {
-	int len;
-	char *res;
-	int j;
-
-	len = 0;
-	while (str[i + len] && ft_isalnum(str[i + len]))
-		len++;
-	res = malloc(len + 1);
-	if (!res)
-		return (NULL);
-	j = 0;
-	while (j < len)
-		res[j++] = str[i++];
-	res[j] = 0;
-	*ptr_i = i;
-	return (res);
+	if (!pretoken->next_pretoken)
+		return (0);
+	if (!ft_strcmp(pretoken->next_pretoken->content, "''") || !ft_strcmp(pretoken->next_pretoken->content, "\"\""))
+		return (1);
+	return(0);
 }
 
 char	*get_name(char *str, int *ptr_i)
 {
-	int		i;
+	char *name;
+	int len;
+	int j;
 
-	i = 0;
-	while (str[i] && str[i] != '$')
-		i++;
-	if (!str[i++])
+	len = 0;
+	while (str[*ptr_i + len] && str[*ptr_i + len] != '$')
+		len++;
+	name = malloc(len + 1);
+	if (!name)
 		return (NULL);
-	if (str[i] == '?')
+	j = 0;
+	while (j < len)
 	{
-		*ptr_i = i + 1;	
-		return (ft_strdup("?"));
+		name[j] = str[*ptr_i];
+		j++;
+		*ptr_i = *ptr_i + 1;
 	}
-	return (get_name_utils(str, i, ptr_i));
+	name[j] = 0;
+	return (name);
 }
 
-int	is_empty_next(t_pretoken *pretoken)
+char *get_value_env(char *name, t_pretoken *pretoken, t_minishell *minishell, int c)
 {
-	if (pretoken->next_pretoken == NULL
-		|| pretoken->next_pretoken->type == WHITESPACE)
-		return (1);
-	return (0);
+	char *res_env;
+	
+	if (!ft_strlen(name))
+	{
+		free(name);
+		if (!c && is_emptyquote_next(pretoken))
+			return (ft_strdup(""));
+		else
+			return (ft_strdup("$"));
+	}
+	res_env = get_env(name, minishell->env);
+	free(name);
+	if (!res_env)
+		return (ft_strdup(""));
+	return(res_env);
+}
+
+int get_len(char *str, int i)
+{
+	int len;
+
+	len = 0;
+	while (str[i + len])
+	{
+		if (!ft_isalnum(str[i + len]) && str[i + len] != '_')
+			break ;
+		if (!len && !ft_isalpha(str[i + len]) && str[i + len] != '_' )
+		{
+			len++;
+			break ;
+		}
+		else if (!ft_isalnum(str[i + len]) && str[i + len] != '_')
+			break ;
+		len ++;
+	}
+	return (len);
+}
+
+char	*get_name_env(char *str, int *ptr_i, t_pretoken *pretoken, t_minishell *minishell)
+{
+	char *name_env;
+	int len;
+	int j;
+
+	*ptr_i = *ptr_i + 1;
+	len = get_len(str, *ptr_i);
+	name_env = malloc(len + 1);
+	if (!name_env)
+		return (NULL);
+	j = 0;
+	while (j < len)
+	{
+		name_env[j++] = str[*ptr_i];
+		*ptr_i = *ptr_i + 1;
+	}
+	name_env[j] = 0;
+	return (get_value_env(name_env, pretoken, minishell, str[*ptr_i]));
 }
 
 char	*expanded_env(char *str, t_pretoken *pretoken, t_minishell *minishell)
 {
-	int		i;
-	char	*name;
-	char	*env_value;
+	char *res;
+	int i;
+
+	res = NULL;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '$')
+			res = ft_strjoin_free2(res, get_name(str, &i));
+		else
+			res = ft_strjoin_free2(res, get_name_env(str, &i, pretoken, minishell));
+	}
+	return (res);
+}
+
+int has_whitespace(char *str)
+{
+	int i;
 
 	i = 0;
-	name = get_name(str, &i);
-	if (!name)
-		return (str);
-	if (!ft_strlen(name))
+	while (str[i])
 	{
-		if (!is_empty_next(pretoken))
-			return (free(name), ft_strdup(""));
-		else
-			return (free(name), ft_strdup("$"));
+		if (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+			return (1);
+		i++;
 	}
-	env_value = get_env(name, minishell->env);
-	free(name);
-	if (!env_value && !str[i])
-		return (ft_strdup(""));
-	if (!env_value)
-		return (ft_strjoin_free(ft_substr(str, 0, ft_strchri(str, '$')),
-				expanded_env(str + i, pretoken, minishell)));
-	return (ft_strjoin_free(ft_strjoin_free(ft_substr(str, 0, ft_strchri(str, '$')),
-				env_value), expanded_env(str + i, pretoken, minishell)));
+	return (0);
 }
 
 
+
+void	split_expand(char *res, t_pretoken *pretoken)
+{
+	char **splitted;
+	int i;
+	t_pretoken *new;
+	t_pretoken *tmp;
+
+	splitted = ft_split(res, ' ');
+	if (!splitted)
+		return ;
+	i = 0;
+	pretoken->content = splitted[i++];
+	tmp = pretoken;
+	while (splitted[i])
+	{
+		new = new_pretoken(splitted[i], WORD);
+		if (!new)
+			return ;
+		new->next_pretoken = tmp->next_pretoken;
+		tmp->next_pretoken = new;
+		tmp = new;
+		i++;
+	}
+}
 
 
 void	expand_env(t_pretoken *pretoken, t_minishell *minishell)
 {
 	char *tmp;
+	char *res;
 	
 	if (!ft_strchr(pretoken->content, '$'))
 		return ;
 	tmp = pretoken->content;
-	pretoken->content = expanded_env(pretoken->content, pretoken, minishell);
+	res = expanded_env(pretoken->content, pretoken, minishell);
+	if (*res == '\'' || *res == '"')
+		res = rm_quotes(res);
+	if (!has_whitespace(pretoken->content))
+		pretoken->content = res;
+	else
+	{
+		split_expand(res, pretoken);
+		free(res);
+	}
 	free(tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:07 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 00:25:05 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 02:22:32 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void print_justincase(char *str)
 int export_one(char *arg, t_minishell *minishell)
 {
     int i;
+    char *linus;
+    char *boom;
 
     if (ft_strchri(arg, '=') <= 0)
         return (print_justincase(arg), 0);
@@ -61,7 +63,11 @@ int export_one(char *arg, t_minishell *minishell)
     }
     if (!arg[ft_strchri(arg, '=') + 1])
         return (0);
-    update_env(ft_substr(arg, 0, ft_strchri(arg, '=')), ft_substr(arg, ft_strchri(arg, '=') + 1, ft_strlen(arg)), minishell->env);
+    linus = ft_substr(arg, 0, ft_strchri(arg, '='));
+    boom = ft_substr(arg, ft_strchri(arg, '=') + 1, ft_strlen(arg));
+    update_env(linus, boom, minishell->env);
+    free(linus);
+    free(boom);
     return (0);
 }
 

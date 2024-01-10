@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:03 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 06:00:20 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 03:25:03 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int    exit_minishell(char **tab, t_minishell *minishell)
     }
     if (!ft_isatoi(*tab))
     {
-        clear_exit(minishell);
         ft_dprintf(2, "minishell: exit : %s: numeric argument required\n", *tab);
+        clear_exit(minishell);
         exit(2);
     }
     i = 0;

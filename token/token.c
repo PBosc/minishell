@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 00:49:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 23:09:26 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 07:27:38 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,15 @@ int match_token(t_token **tokens, t_pretoken *pretoken)
 	TODO check si execve prend le string avec pls arguments, et dans le cas contraire ne pas join les arg
 */
 
-int	add_token(t_token **tokens, t_pretoken *pretoken)
+int	add_token(t_token **tokens, t_pretoken **pretoken)
 {
 	//t_token	*new;
 	//t_token	*last;
-	// char	*content;
+	int ret;
+	char	*content;
 
 	//new = NULL;
-	//content = NULL;
+	content = NULL;
 	// if ((*pretoken)->type == WORD)
 	// {
 	// 	while ((*pretoken) && (*pretoken)->type == WORD)
@@ -88,12 +89,27 @@ int	add_token(t_token **tokens, t_pretoken *pretoken)
 	// 	}
 	// 	new = new_token(content, OPERAND);
 	// }
-	if (pretoken->type == WORD)
-		return (new_token(tokens, pretoken->content, OPERAND));
-	else if (pretoken->type != WHITESPACE)
-		return (match_token(tokens, pretoken));
+	if ((*pretoken)->type == WORD)
+	{
+		while ((*pretoken) && (*pretoken)->type == WORD)
+		{
+			content = ft_strjoin_free2(content, (*pretoken)->content);
+			move_def(pretoken, 0);
+		}
+		return (new_token(tokens, content, OPERAND));
+	}
+	else if ((*pretoken)->type != WHITESPACE)
+	{
+		ret = match_token(tokens, *pretoken);
+		move_def(pretoken, 0);
+		return (ret);
+	}
 	else
-		return (free(pretoken->content), 1);
+	{
+		free((*pretoken)->content);
+		move_def(pretoken, 0);
+		return (1);
+	}
 	// if (*tokens)
 	// {
 	// 	last = last_token(*tokens);
@@ -115,11 +131,11 @@ t_token	*tokenization(t_pretoken *pretokens)
 	tokens = NULL;
 	while (pretokens)
 	{
-		if (!add_token(&tokens, pretokens))
+		if (!add_token(&tokens, &pretokens))
 			return (printf("Pb de token\n"), clear_pretokens(&pretokens), clear_tokens(&tokens), NULL);
 		//if (pretokens->type == WHITESPACE)
 			//move_def(&pretokens, 1);
-		move_def(&pretokens, 0);
+		//move_def(&pretokens, 0);
 	}
 	return (tokens);
 }

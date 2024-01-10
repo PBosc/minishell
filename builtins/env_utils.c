@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:23 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 00:26:17 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 06:10:16 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char *get_env(char *key, t_env *env)
     while (env)
     {
         if (!ft_strcmp(env->key, key))
-            return (printf("OK %s\n", env->value), env->value);
+            return (ft_strdup(env->value));
         env = env->next_env;
     }
     return (NULL);
@@ -53,9 +53,13 @@ void    update_env(char *key, char *value, t_env *env)
             env->value = ft_strdup(value);
             return ;
         }
+        if (!env->next_env)
+        {
+            env->next_env = new_env(ft_strdup(key), ft_strdup(value), 0);
+            return ;
+        }
         env = env->next_env;
     }
-    env = new_env(key, ft_strdup(value), 0);
 }
 
 void    delete_env(char *key, t_env *env, t_minishell *minishell)

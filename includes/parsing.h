@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 00:26:03 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 07:00:54 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,10 @@ int						check_syntax(t_pretoken *pretokens);
 void					syntax_error(t_pretoken *pretoken);
 
 /*Expand functions*/
-void					rm_quotes(t_pretoken *pretoken);
+char *					rm_quotes(char *str);
 void					expand_env(t_pretoken *pretoken,
+							t_minishell *minishell);
+void					expand_env_dq(t_pretoken *pretoken,
 							t_minishell *minishell);
 void					expand_wildcard(t_pretoken *pretoken);
 void					expand_pretokens(t_pretoken *pretokens,
@@ -188,6 +190,7 @@ int						ft_atoi(const char *str);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 int						ft_isalpha(int c);
 void					*ft_memset(void *s, int c, size_t n);
+char					*ft_strjoin_free2(char *s1, char *s2);
 
 /*Free and error handling functions*/
 void					clear_pretokens(t_pretoken **pretokens);

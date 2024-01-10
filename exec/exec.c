@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:13:06 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/09 11:18:51 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/10 04:07:13 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	init_jump_table(t_fct_ptr (*exec_fct)[4])
 {
 	(*exec_fct)[T_CMD] = &exec_cmd;
 	(*exec_fct)[T_PIPE] = &exec_master_pipe;
-	(*exec_fct)[T_OR] = &exec_or;
-	(*exec_fct)[T_AND] = &exec_and;
+	(*exec_fct)[T_OR] = &exec_and;
+	(*exec_fct)[T_AND] = &exec_or;
 }
 
 int	exec(t_node_ast *ast, t_exec *exec, t_minishell *minishell)
