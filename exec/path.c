@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 16:41:31 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/10 00:15:20 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:12:20 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ char	*get_valid_path(char **paths, char *cmd)
 	char	*cmd_path;
 	char	*tmp;
 
-	if (!paths && access(cmd, F_OK) == 0)
+	if (!paths || (cmd[0] == '.' && cmd[1] == '/') || cmd[0] == '/')
 		return (cmd);
-	else if (!paths)
-		return (ft_dprintf(2, "minishell: %s: command not found\n", cmd), NULL);
+	else if (!paths || !cmd[0])
+		return (free_tab_2d(paths), ft_dprintf(2, "minishell: %s: command not found\n", cmd), NULL);
 	i = 0;
 	while (paths[i])
 	{
