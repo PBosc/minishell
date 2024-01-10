@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:27 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 05:21:21 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:07:01 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	rm_quotes(t_pretoken *pretoken)
 
 void	expand_pretokens(t_pretoken *pretokens, t_minishell *minishell)
 {
+	(void)minishell;
 	while (pretokens)
 	{
 		if (pretokens->type == WORD)
@@ -61,8 +62,8 @@ void	expand_pretokens(t_pretoken *pretokens, t_minishell *minishell)
 			}
 			else
 			{
-				expand_env(pretokens, minishell);
 				expand_wildcard(pretokens);
+				expand_env(pretokens, minishell);
 			}
 		}
 		pretokens = pretokens->next_pretoken;

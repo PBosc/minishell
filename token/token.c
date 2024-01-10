@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 00:49:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 05:24:50 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:09:26 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ t_token	*tokenization(t_pretoken *pretokens)
 	while (pretokens)
 	{
 		if (!add_token(&tokens, pretokens))
-			return (printf("Pb de token\n"), clear_tokens(&tokens), NULL);
+			return (printf("Pb de token\n"), clear_pretokens(&pretokens), clear_tokens(&tokens), NULL);
 		//if (pretokens->type == WHITESPACE)
 			//move_def(&pretokens, 1);
 		move_def(&pretokens, 0);

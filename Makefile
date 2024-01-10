@@ -15,7 +15,7 @@ SRCS =	ast_redir.c ast_utils.c ast_utils2.c ast.c\
 		ft_dprintf.c dprintf_utils.c dprintf_utils2.c\
 		expand_wildcard.c expand.c env_expand.c\
 		clear.c redir.c exec.c exec_cmd.c exec_operations.c\
-		exec_utils.c exec_operations_2.c exec_pipes.c path.c\
+		exec_utils.c exec_pipes.c path.c\
 		split.c init.c get_next_line.c heredoc.c utils.c signal.c\
 		handlers.c heredoc_utils.c\
 		main.c

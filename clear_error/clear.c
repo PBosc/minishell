@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 04:19:55 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 05:55:08 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:11:55 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	clear_tokens(t_token **tokens)
 	while (*tokens)
 	{
 		tmp = (*tokens)->next_token;
-		free((*tokens)->content);
+		//free((*tokens)->content);
 		free(*tokens);
 		*tokens = tmp;
 	}

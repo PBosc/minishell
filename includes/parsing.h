@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 06:34:22 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 00:26:03 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ int						ft_isatoi(char *str);
 int						ft_atoi(const char *str);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 int						ft_isalpha(int c);
+void					*ft_memset(void *s, int c, size_t n);
 
 /*Free and error handling functions*/
 void					clear_pretokens(t_pretoken **pretokens);

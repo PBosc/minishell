@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:22 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 06:39:02 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:28:32 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,8 @@ char *get_name_utils(char *str, int i, int *ptr_i)
 char	*get_name(char *str, int *ptr_i)
 {
 	int		i;
-	//int		j;
-	//int		len;
-	//char	*res;
 
 	i = 0;
-	//len = 0;
 	while (str[i] && str[i] != '$')
 		i++;
 	if (!str[i++])
@@ -58,16 +54,6 @@ char	*get_name(char *str, int *ptr_i)
 		*ptr_i = i + 1;	
 		return (ft_strdup("?"));
 	}
-	// while (str[i + len] && ft_isalnum(str[i + len]))
-	// 	len++;
-	// res = malloc(len + 1);
-	// if (!res)
-	// 	return (NULL);
-	// j = 0;
-	// while (j < len)
-	// 	res[j++] = str[i++];
-	// res[j] = 0;
-	// *ptr_i = i;
 	return (get_name_utils(str, i, ptr_i));
 }
 
@@ -101,9 +87,9 @@ char	*expanded_env(char *str, t_pretoken *pretoken, t_minishell *minishell)
 	if (!env_value && !str[i])
 		return (ft_strdup(""));
 	if (!env_value)
-		return (ft_strjoin(ft_substr(str, 0, ft_strchri(str, '$')),
+		return (ft_strjoin_free(ft_substr(str, 0, ft_strchri(str, '$')),
 				expanded_env(str + i, pretoken, minishell)));
-	return (ft_strjoin(ft_strjoin(ft_substr(str, 0, ft_strchri(str, '$')),
+	return (ft_strjoin_free(ft_strjoin_free(ft_substr(str, 0, ft_strchri(str, '$')),
 				env_value), expanded_env(str + i, pretoken, minishell)));
 }
 

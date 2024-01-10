@@ -6,15 +6,12 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 00:50:04 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 06:25:40 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/09 23:06:19 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-/*
-	TODO CA MARCHE PAS LES QUOTES ATTENTION
-*/
 
 int check_quotes(char *str)
 {
@@ -36,28 +33,6 @@ int check_quotes(char *str)
     return (!single_quote && !double_quote);
 }
 
-// int	check_quotes(char *str)
-// {
-// 	int		i;
-// 	char	c;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == 39 || str[i] == 34)
-// 		{
-// 			c = str[i];
-// 			while (str[++i] && str[i] != c)
-// 				i++;
-// 			if (!str[i])
-// 				return (0);
-// 			i++;
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	return (1);
-// }
 
 t_pretoken	*last_pretoken(t_pretoken *pretoken)
 {

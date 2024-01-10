@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:23 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 06:34:39 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 00:26:17 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char *get_env(char *key, t_env *env)
     while (env)
     {
         if (!ft_strcmp(env->key, key))
-            return (env->value);
+            return (printf("OK %s\n", env->value), env->value);
         env = env->next_env;
     }
     return (NULL);
@@ -44,25 +44,18 @@ char *get_env(char *key, t_env *env)
 void    update_env(char *key, char *value, t_env *env)
 {
     if (!env)
-        env = new_env(key, value, 0);
-    while (env->next_env)
+        env = new_env(key, ft_strdup(value), 0);
+    while (env)
     {
         if (!ft_strcmp(env->key, key))
         {
-            /*
-            ! pe il faut free le result de getenv ici
-            */
-            env->value = value;
+            free(env->value);
+            env->value = ft_strdup(value);
+            return ;
         }
         env = env->next_env;
     }
-    if (!ft_strcmp(env->key, key))
-    {
-        
-        env->value = value;
-    }
-    else
-        env->next_env = new_env(key, value, 0);
+    env = new_env(key, ft_strdup(value), 0);
 }
 
 void    delete_env(char *key, t_env *env, t_minishell *minishell)
