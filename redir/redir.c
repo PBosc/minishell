@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:21:46 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/09 21:28:56 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/10 23:50:16 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ int	get_fd_out(t_redir_list *redirs, char **outfile)
 
 int	get_redirs(t_redir_list *redirs, t_exec *data)
 {
-	char *infile;
-	char *outfile;
+	char	*infile;
+	char	*outfile;
 
 	data->fd_in = get_fd_in(redirs, data, &infile);
 	if (data->fd_in == -1)

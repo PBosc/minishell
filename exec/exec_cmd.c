@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/10 23:39:12 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/10 23:45:46 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,20 @@ void	child_fds(t_exec *data)
 	}
 }
 
+static inline void	sig_fork(t_exec *data)
+{
+	signal(SIGINT, fork_sig_handler);
+	signal(SIGQUIT, fork_sig_handler);
+	data->pid = fork();
+}
+
 int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
 {
 	char	**env_tab;
 
 	if (precheck(node, data, minishell))
 		return (EXIT_FAILURE);
-	signal(SIGINT, fork_sig_handler);
-	signal(SIGQUIT, fork_sig_handler);
-	data->pid = fork();
+	sig_fork(data);
 	if (data->pid == -1)
 		return (EXIT_FAILURE);
 	if (data->pid == 0)
