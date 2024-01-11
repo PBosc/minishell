@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:21:46 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 03:24:49 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 04:36:23 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	get_infile(t_redir_list *redir, t_exec *data, char **infile)
 	t_hered					*heredoc;
 
 	heredoc = NULL;
-	if (is_here_doc == 1)
+	if (is_here_doc == 1 && (redir->type == R_HEREDOC || redir->type == R_IN))
 	{
 		read_here_doc(&heredoc, data, NULL);
 		free_heredoc(heredoc);
