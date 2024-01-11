@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:03:41 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 01:55:03 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 03:25:27 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	handle_not_found(t_node_ast *node)
 	g_status = 127;
 	if (!node->args[0] || !ft_strcmp(node->args[0], "placeholder1234"))
 		return (g_status);
-	dprintf(2, "minishell: %s: %s\n", node->args[0], strerror(errno));
+	ft_dprintf(2, "minishell: %s: %s\n", node->args[0], strerror(errno));
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 00:51:23 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/11 01:00:15 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 03:10:22 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ char	*expanded_heredoc(char *str, t_minishell *minishell)
 		else
 			res = ft_strjoin_free2(res, get_name_env_doc(str, &i, minishell));
 	}
+	free(str);
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 00:49:28 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 03:27:49 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	wait_commands(t_exec *exec)
 		if (exec->wpid != exec->pid)
 			continue ;
 		if (WTERMSIG(exec->status) == 2)
-			dprintf(STDERR_FILENO, "\n");
+			ft_dprintf(STDERR_FILENO, "\n");
 		else if (WTERMSIG(exec->status) == 3)
-			dprintf(STDERR_FILENO, "Quit (core dumped)\n");
+			ft_dprintf(STDERR_FILENO, "Quit (core dumped)\n");
 		if (WIFEXITED(exec->status))
 			g_status = WEXITSTATUS(exec->status);
 		else
@@ -90,14 +90,14 @@ int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
 			close(data->pipe[1]);
 		env_tab = tab_env(data->env);
 		execve(node->args[0], node->args, env_tab);
-		free_tab_2d(env_tab);
-		exit(data->ret_value);
+		(free_tab_2d(env_tab), exit(data->ret_value));
 	}
 	else
 	{
 		if (!data->is_pipe)
 			close(data->pipe[1]);
-		data->fd_in = data->pipe[0];
+		else
+			data->fd_in = data->pipe[0];
 		data->fd_out = STDOUT_FILENO;
 		return (g_status);
 	}

@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:03 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 22:29:48 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 03:31:32 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	exit_minishell(char **tab, t_minishell *minishell)
 	if (tab[i + 1])
 	{
 		ft_dprintf(2, "minishell: exit: too many arguments\n");
-		return (2);
+		return (1);
 	}
 	exit(ft_atoi(*tab));
 }

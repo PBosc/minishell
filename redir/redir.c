@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:21:46 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 02:32:25 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 03:24:49 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 int	get_infile(t_redir_list *redir, t_exec *data, char **infile)
 {
 	static int				is_here_doc = 0;
+	t_hered					*heredoc;
 
+	heredoc = NULL;
 	if (is_here_doc == 1)
-		read_here_doc(NULL, data, NULL);
+	{
+		read_here_doc(&heredoc, data, NULL);
+		free_heredoc(heredoc);
+	}
 	is_here_doc = 0;
 	if (redir->type == R_IN)
 	{
@@ -51,8 +56,11 @@ int	get_outfile(t_redir_list *redir, char **outfile)
 		*outfile = redir->file;
 		is_append = 1;
 	}
-	fd = open(*outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	close(fd);
+	if (*outfile)
+	{
+		fd = open(*outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		close(fd);
+	}
 	return (is_append);
 }
 
