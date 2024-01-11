@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 03:27:49 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 04:43:56 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
 	if (data->pid == 0)
 	{
 		child_fds(data, minishell);
-		if (!data->is_pipe)
+		if (!data->is_pipe && data->pipe[1] != -1)
 			close(data->pipe[1]);
 		env_tab = tab_env(data->env);
 		execve(node->args[0], node->args, env_tab);
@@ -94,7 +94,7 @@ int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
 	}
 	else
 	{
-		if (!data->is_pipe)
+		if (!data->is_pipe && data->pipe[1] != -1)
 			close(data->pipe[1]);
 		else
 			data->fd_in = data->pipe[0];

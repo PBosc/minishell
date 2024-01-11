@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 04:37:53 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 05:18:40 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	exec_pipe(t_node_ast *node, t_exec *data,
 		if (data->prev_pipe != -1)
 			close(data->prev_pipe);
 		data->prev_pipe = data->pipe[0];
-		close(data->pipe[1]);
+		if (data->pipe[1] != -1)
+			close(data->pipe[1]);
 		if (!is_end && data->fd_out != 1)
 			close(data->fd_out);
 	}
@@ -56,9 +57,12 @@ int	exec_2pipes(t_node_ast *node, t_exec *data, t_minishell *minishell)
 	exec_pipe(node->left_child, data, 0, minishell);
 	exec_pipe(node->right_child, data, 1, minishell);
 	g_status = wait_commands(data);
-	close(data->pipe[0]);
-	close(data->pipe[1]);
-	close(data->prev_pipe);
+	if (data->pipe[0] != -1)
+		close(data->pipe[0]);
+	if (data->pipe[1] != -1)
+		close(data->pipe[1]);
+	if (data->prev_pipe != -1)
+		close(data->prev_pipe);
 	return (g_status);
 }
 
@@ -67,9 +71,12 @@ int	exec_more_pipes(t_node_ast *node, t_exec *data, t_minishell *minishell)
 	exec_pipeline(node->left_child, data, minishell);
 	exec_pipe(node->right_child, data, 1, minishell);
 	g_status = wait_commands(data);
-	close(data->pipe[0]);
-	close(data->pipe[1]);
-	close(data->prev_pipe);
+	if (data->pipe[0] != -1)
+		close(data->pipe[0]);
+	if (data->pipe[1] != -1)
+		close(data->pipe[1]);
+	if (data->prev_pipe != -1)
+		close(data->prev_pipe);
 	return (g_status);
 }
 
@@ -86,9 +93,12 @@ int	exec_master_pipe(t_node_ast *node, t_exec *data, t_minishell *minishell)
 		exec_pipe(node->right_child, data, 1, minishell);
 		data->is_pipe = 0;
 		g_status = wait_commands(data);
-		close(data->pipe[0]);
-		close(data->pipe[1]);
-		close(data->prev_pipe);
+		if (data->pipe[0] != -1)
+			close(data->pipe[0]);
+		if (data->pipe[1] != -1)
+			close(data->pipe[1]);
+		if (data->prev_pipe != -1)
+			close(data->prev_pipe);
 		return (g_status);
 	}
 }

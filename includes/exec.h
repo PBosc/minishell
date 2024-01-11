@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 02:20:52 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 05:03:34 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		exec_builtin(char **args, t_minishell *minishell);
 
 //handlers
 
-int		handle_not_found(t_node_ast *node);
+int		handle_not_found(t_node_ast *node, t_exec *data);
 int		handle_nocmd_heredoc(t_exec *data, t_minishell *minishell);
 int		precheck(t_node_ast *node, t_exec *data, t_minishell *minishell);
 int		pipe_precheck(t_node_ast *node, t_exec *data, t_minishell *minishell);

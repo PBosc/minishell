@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:21:46 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 04:36:23 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 04:47:12 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	get_outfile(t_redir_list *redir, char **outfile)
 	if (*outfile)
 	{
 		fd = open(*outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		close(fd);
+		if (fd != -1)
+			close(fd);
 	}
 	return (is_append);
 }

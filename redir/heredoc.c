@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 03:25:34 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 04:46:49 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ void	child_heredoc(t_hered *heredoc, t_exec *data)
 {
 	write_here_doc(heredoc, data);
 	free_heredoc(heredoc);
-	close(data->pipe[0]);
-	close(data->pipe[1]);
+	if (data->pipe[0] != -1)
+		close(data->pipe[0]);
+	if (data->pipe[1] != -1)
+		close(data->pipe[1]);
 	exit(EXIT_SUCCESS);
 }
 
@@ -77,7 +79,8 @@ int	init_heredoc(t_exec *data, t_minishell *minishell)
 		return (0);
 	if (child_pid == 0)
 		child_heredoc(heredoc, data);
-	close(data->pipe[1]);
+	if (data->pipe[1] != -1)
+		close(data->pipe[1]);
 	free_heredoc(heredoc);
 	data->prev_pipe = data->pipe[0];
 	return (1);
