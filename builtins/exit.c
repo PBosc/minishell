@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:03 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/11 05:46:24 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 06:23:52 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	clear_exit(t_minishell *minishell, t_exec *data)
 {
 	clear_ast(&minishell->ast);
 	clear_env(&(minishell->env));
-	close_pipes(data);
+	close_pipes(data, 1);
 	free(minishell);
 }
 

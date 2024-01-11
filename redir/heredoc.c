@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 04:46:49 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 06:23:17 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int	init_heredoc(t_exec *data, t_minishell *minishell)
 	return (1);
 }
 
-void	close_pipes(t_exec *data)
+void	close_pipes(t_exec *data, int close_in)
 {
-	if (data->pipe[0] != -1)
+	if (data->pipe[0] != -1 && close_in)
 		close(data->pipe[0]);
 	if (data->pipe[1] != -1)
 		close(data->pipe[1]);

@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 05:44:20 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 06:27:51 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	exec_pipe(t_node_ast *node, t_exec *data,
 			exec_builtin(node->args, minishell, data);
 		else
 			execve(node->args[0], node->args, tab_env(data->env));
-		close_pipes(data);
+		close_pipes(data, 1);
 		exit(data->ret_value);
 	}
 	else
@@ -35,10 +35,7 @@ void	exec_pipe(t_node_ast *node, t_exec *data,
 		if (data->prev_pipe != -1)
 			close(data->prev_pipe);
 		data->prev_pipe = data->pipe[0];
-		if (data->pipe[1] != -1)
-			close(data->pipe[1]);
-		if (!is_end && data->fd_out != 1)
-			close(data->fd_out);
+		close_pipes(data, 0);
 	}
 }
 

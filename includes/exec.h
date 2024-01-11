@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 05:45:11 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 06:24:06 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,6 @@ int		child_pipes(t_exec *data, int in_end);
 void	fork_sig_handler(int sig);
 void	heredoc_sig_handler(int sig);
 char	*expanded_heredoc(char *str, t_minishell *minishell);
-void	close_pipes(t_exec *data);
+void	close_pipes(t_exec *data, int close_in);
 
 #endif
