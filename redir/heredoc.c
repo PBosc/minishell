@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 02:34:57 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 02:45:47 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ void	close_pipes(t_exec *data)
 		close(data->pipe[0]);
 	if (data->pipe[1] != -1)
 		close(data->pipe[1]);
-	if (data->fd_in != -1)
+	if (data->fd_in != -1 && data->fd_in != 0)
 		close(data->fd_in);
-	if (data->fd_out != -1)
+	if (data->fd_out != -1 && data->fd_out != 1)
 		close(data->fd_out);
 }
