@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 05:03:34 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 05:45:11 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ int		ft_lstpush_back(t_hered **lst, char *line);
 int		cd(char **args, t_minishell *minishell);
 int		echo(char **tab);
 int		env(t_minishell *minishell);
-int		exit_minishell(char **args, t_minishell *minishell);
+int		exit_minishell(char **args, t_minishell *minishell, t_exec *data);
 int		export(char **args, t_minishell *minishell);
 int		pwd(char **args, t_minishell *minishell);
 int		unset(char **args, t_minishell *minishell);
 int		is_builtin(char *cmd);
-int		exec_builtin(char **args, t_minishell *minishell);
+int		exec_builtin(char **args, t_minishell *minishell, t_exec *data);
 
 //handlers
 

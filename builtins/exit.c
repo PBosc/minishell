@@ -3,37 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:03 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/11 03:31:32 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 05:46:24 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
-void	clear_exit(t_minishell *minishell)
+void	clear_exit(t_minishell *minishell, t_exec *data)
 {
 	clear_ast(&minishell->ast);
 	clear_env(&(minishell->env));
+	close_pipes(data);
 	free(minishell);
 }
 
-int	exit_minishell(char **tab, t_minishell *minishell)
+int	exit_minishell(char **tab, t_minishell *minishell, t_exec *data)
 {
 	int	i;
 
 	printf("exit\n");
 	if (!tab || !*tab)
 	{
-		clear_exit(minishell);
+		clear_exit(minishell, data);
 		exit(0);
 	}
 	if (!ft_isatoi(*tab))
 	{
 		ft_dprintf(2, "minishell: exit : %s: numeric argument required\n",
 			*tab);
-		clear_exit(minishell);
+		clear_exit(minishell, data);
 		exit(2);
 	}
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 05:18:40 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 05:44:20 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	exec_pipe(t_node_ast *node, t_exec *data,
 	{
 		child_pipes(data, is_end);
 		if (is_builtin(node->args[0]))
-			exec_builtin(node->args, minishell);
+			exec_builtin(node->args, minishell, data);
 		else
 			execve(node->args[0], node->args, tab_env(data->env));
 		close_pipes(data);
