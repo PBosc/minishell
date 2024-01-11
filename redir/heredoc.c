@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 00:51:55 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 01:05:11 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	read_here_doc(t_hered **here_doc, t_exec *data, t_minishell *minishell)
 		if (!ft_strcmp(line, data->limiter))
 			return (free(line), 1);
 		line = ft_strjoin(line, "\n");
-		line = expanded_heredoc(line, minishell);
+		if (!minishell)
+			line = expanded_heredoc(line, minishell);
 		if (!ft_lstpush_back(here_doc, line))
 			return (free(line), perror("malloc list"), 0);
 		free(line);
