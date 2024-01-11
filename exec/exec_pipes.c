@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/10 23:39:25 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 00:48:23 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	exec_pipe(t_node_ast *node, t_exec *data,
 	int is_end, t_minishell *minishell)
 {	
-	if (pipe_precheck(node, data))
+	if (pipe_precheck(node, data, minishell))
 		return ;
 	data->pid = fork();
 	if (data->pid == -1)

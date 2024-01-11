@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:07 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 23:10:58 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/10 23:49:39 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,24 @@ int	print_justincase(char *str)
 	{
 		if (i == 0 && !ft_isalpha(str[i]) && str[i] != '_')
 		{
-			ft_dprintf(2, "minishell: export: `%s': not a valid identifier\n", str);
+			ft_dprintf(2, "minishell: export: `%s': not a valid identifier\n",
+				str);
 			return (1);
 		}
 		else if (!ft_isalnum(str[i]) && str[i] != '_')
 		{
-			ft_dprintf(2, "minishell: export: `%s': not a valid identifier\n", str);
+			ft_dprintf(2, "minishell: export: `%s': not a valid identifier\n",
+				str);
 			return (1);
 		}
 		i++;
 	}
-    return (0);
+	return (0);
+}
+
+void	print_error(char *arg)
+{
+	ft_dprintf(2, "minishell: export: `%s': not a valid identifier\n", arg);
 }
 
 int	export_one(char *arg, t_minishell *minishell)
@@ -57,11 +64,9 @@ int	export_one(char *arg, t_minishell *minishell)
 	while (i < ft_strchri(arg, '='))
 	{
 		if (i == 0 && !ft_isalpha(arg[i]) && arg[i] != '_')
-			return (ft_dprintf(2,
-					"minishell: export: `%s': not a valid identifier\n", arg), 1);
+			return (print_error(arg), 1);
 		else if (!ft_isalnum(arg[i]) && arg[i] != '_')
-			return (ft_dprintf(2,
-					"minishell: export: `%s': not a valid identifier\n", arg), 1);
+			return (print_error(arg), 1);
 		i++;
 	}
 	if (!arg[ft_strchri(arg, '=') + 1])

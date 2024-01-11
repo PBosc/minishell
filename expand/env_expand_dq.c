@@ -6,34 +6,11 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:22 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 22:45:02 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 00:38:23 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-char	*get_name_dq(char *str, int *ptr_i)
-{
-	char	*name;
-	int		len;
-	int		j;
-
-	len = 0;
-	while (str[*ptr_i + len] && str[*ptr_i + len] != '$')
-		len++;
-	name = malloc(len + 1);
-	if (!name)
-		return (NULL);
-	j = 0;
-	while (j < len)
-	{
-		name[j] = str[*ptr_i];
-		j++;
-		*ptr_i = *ptr_i + 1;
-	}
-	name[j] = 0;
-	return (name);
-}
 
 char	*get_value_env_dq(char *name, t_minishell *minishell)
 {

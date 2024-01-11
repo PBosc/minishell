@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 20:56:49 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 00:58:30 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,9 @@ t_node_ast				*parser(t_token *tokens);
 /*Token builders*/
 t_pretoken				*pretokenization(char *str);
 t_token					*tokenization(t_pretoken *pretokens);
+t_token					*last_token(t_token *token);
+int						new_token(t_token **tokens, char *content,
+							t_token_type type);
 
 /*Syntax checker*/
 int						check_syntax(t_pretoken *pretokens);
@@ -132,6 +135,16 @@ void					expand_wildcard(t_pretoken *pretoken);
 void					expand_pretokens(t_pretoken *pretokens,
 							t_minishell *minishell);
 char					*get_env(char *key, t_env *env);
+int						has_whitespace(char *str);
+t_pretoken				*added_whitespace(t_pretoken *pretoken);
+void					add_first_one(t_pretoken *pretoken, char **splitted,
+							int *i);
+void					split_expand(char *res, t_pretoken *pretoken);
+int						is_emptyquote_next(t_pretoken *pretoken);
+char					*get_name(char *str, int *ptr_i);
+char					*get_name_dq(char *str, int *ptr_i);
+void					a(int *i, int *j);
+int						get_len(char *str, int i);
 
 /*Redirections*/
 int						add_redir(t_node_ast *node, t_token **token);

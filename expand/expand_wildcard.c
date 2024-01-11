@@ -6,61 +6,50 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/31 17:36:29 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 22:44:36 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 00:38:50 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-/*
-	TODO remonter les mallocs errors
-*/
-
-int	is_match(char *s, char *p)
+int	match_core(char *str, char *pattern, int f[4])
 {
-	int	i;
-	int	s_idx;
-	int	p_idx;
-	int	last_wildcard_idx;
-	int	s_backtrack_idx;
-	int	next_to_wildcard_idx;
-
-	if (!ft_strcmp(s, ".") || !ft_strcmp(s, ".."))
-		return (0);
-	s_idx = 0;
-	p_idx = 0;
-	last_wildcard_idx = -1;
-	s_backtrack_idx = -1;
-	next_to_wildcard_idx = -1;
-	while (s_idx < ft_strlen(s))
+	while (str[f[0]])
 	{
-		if (p_idx < ft_strlen(p) && (p[p_idx] == '?' || p[p_idx] == s[s_idx]))
+		if (pattern[f[1]] == '*' || pattern[f[1]] == str[f[0]])
 		{
-			++s_idx;
-			++p_idx;
+			if (pattern[f[1]] == '*')
+			{
+				f[2] = f[1]++;
+				f[3] = f[0];
+			}
+			else
+				a(&f[1], &f[0]);
 		}
-		else if (p_idx < ft_strlen(p) && p[p_idx] == '*')
+		else if (f[2] != -1)
 		{
-			last_wildcard_idx = p_idx;
-			next_to_wildcard_idx = ++p_idx;
-			s_backtrack_idx = s_idx;
+			f[1] = f[2] + 1;
+			f[0] = ++f[3];
 		}
-		else if (last_wildcard_idx == -1)
-			return (0);
 		else
-		{
-			p_idx = next_to_wildcard_idx;
-			s_idx = ++s_backtrack_idx;
-		}
-	}
-	i = p_idx;
-	while (i < ft_strlen(p))
-	{
-		if (p[i] != '*')
 			return (0);
-		i++;
 	}
-	return (1);
+	while (pattern[f[1]] == '*')
+		f[1]++;
+	return (pattern[f[1]] == '\0');
+}
+
+int	ft_ismatch(char *str, char *pattern)
+{
+	int	f[4];
+
+	if (!ft_strcmp(str, ".") || !ft_strcmp(str, ".."))
+		return (0);
+	f[0] = 0;
+	f[1] = 0;
+	f[2] = -1;
+	f[3] = -1;
+	return (match_core(str, pattern, f));
 }
 
 char	**expanded_wildcard(t_pretoken *pretoken)
@@ -78,12 +67,23 @@ char	**expanded_wildcard(t_pretoken *pretoken)
 	entry = readdir(dir);
 	while (entry)
 	{
-		if (is_match(entry->d_name, pretoken->content))
+		if (ft_ismatch(entry->d_name, pretoken->content))
 			tab = join_tab(tab, ft_strdup(entry->d_name));
 		entry = readdir(dir);
 	}
 	closedir(dir);
 	return (tab);
+}
+
+t_pretoken	*new_pretoken_wild(char *str, t_pretoken *pretoken, int *i)
+{
+	t_pretoken	*new;
+
+	new = new_pretoken(str, WORD);
+	new->wild = 1;
+	new->next_pretoken = pretoken->next_pretoken;
+	*i = *i + 1;
+	return (new);
 }
 
 void	expand_wildcard(t_pretoken *pretoken)
@@ -104,11 +104,8 @@ void	expand_wildcard(t_pretoken *pretoken)
 	i = 0;
 	while (tab[i] && tab[i + 1])
 	{
-		new = new_pretoken(tab[i], WORD);
-		new->wild = 1;
-		new->next_pretoken = pretoken->next_pretoken;
+		new = new_pretoken_wild(tab[i], pretoken, &i);
 		pretoken->next_pretoken = new;
-		i++;
 	}
 	if (tab[i])
 	{

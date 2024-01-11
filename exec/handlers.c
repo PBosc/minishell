@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:03:41 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/10 23:43:41 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 00:56:01 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int	handle_not_found(t_node_ast *node)
 	return (1);
 }
 
-int	handle_nocmd_heredoc(t_exec *data)
+int	handle_nocmd_heredoc(t_exec *data, t_minishell *minishell)
 {
 	t_hered	*heredoc;
 
 	heredoc = NULL;
 	if (data->fd_in == REDIR_HEREDOC)
 	{
-		read_here_doc(&heredoc, data);
+		read_here_doc(&heredoc, data, minishell);
 		free_heredoc(heredoc);
 	}
 	g_status = 0;
@@ -42,7 +42,7 @@ int	precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 	if (!get_redirs(node->redirs, data))
 		return (1);
 	if (!node->args)
-		return (handle_nocmd_heredoc(data));
+		return (handle_nocmd_heredoc(data, minishell));
 	if (pipe(data->pipe) == -1)
 		return (EXIT_FAILURE);
 	if (!is_builtin(node->args[0]))
@@ -73,19 +73,19 @@ int	child_pipes(t_exec *data, int is_end)
 	return (EXIT_SUCCESS);
 }
 
-int	pipe_precheck(t_node_ast *node, t_exec *data)
+int	pipe_precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 {
 	if (!get_redirs(node->redirs, data))
 		return (1);
 	if (!node->args)
 	{
 		if (data->fd_in == REDIR_HEREDOC)
-			init_heredoc(data);
+			init_heredoc(data, minishell);
 		g_status = 0;
 		return (1);
 	}
 	if (data->fd_in == REDIR_HEREDOC)
-		init_heredoc(data);
+		init_heredoc(data, minishell);
 	if (!is_builtin(node->args[0]))
 		node->args[0] = get_valid_path(get_path(data->env), node->args[0]);
 	if (node->args[0] == NULL || !ft_strcmp(node->args[0], "placeholder1234")

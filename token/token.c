@@ -6,41 +6,11 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 00:49:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 22:48:54 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 00:43:23 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-t_token	*last_token(t_token *token)
-{
-	if (!token)
-		return (NULL);
-	while (token->next_token)
-		token = token->next_token;
-	return (token);
-}
-
-int	new_token(t_token **tokens, char *content, t_token_type type)
-{
-	t_token	*new;
-	t_token	*last;
-
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return (0);
-	new->content = content;
-	new->type = type;
-	new->next_token = NULL;
-	if (*tokens)
-	{
-		last = last_token(*tokens);
-		last->next_token = new;
-	}
-	else
-		*tokens = new;
-	return (1);
-}
 
 int	match_token(t_token **tokens, t_pretoken *pretoken)
 {
@@ -65,6 +35,26 @@ int	match_token(t_token **tokens, t_pretoken *pretoken)
 	return (0);
 }
 
+int	add_token_word(t_token **tokens, t_pretoken **pretoken)
+{
+	int		ret;
+	char	*content;
+
+	content = NULL;
+	if ((*pretoken)->wild == 1)
+	{
+		ret = new_token(tokens, (*pretoken)->content, OPERAND);
+		move_def(pretoken, 0);
+		return (ret);
+	}
+	while ((*pretoken) && (*pretoken)->type == WORD && !(*pretoken)->wild)
+	{
+		content = ft_strjoin_free2(content, (*pretoken)->content);
+		move_def(pretoken, 0);
+	}
+	return (new_token(tokens, content, OPERAND));
+}
+
 int	add_token(t_token **tokens, t_pretoken **pretoken)
 {
 	int		ret;
@@ -73,18 +63,7 @@ int	add_token(t_token **tokens, t_pretoken **pretoken)
 	content = NULL;
 	if ((*pretoken)->type == WORD)
 	{
-		if ((*pretoken)->wild == 1)
-		{
-			ret = new_token(tokens, (*pretoken)->content, OPERAND);
-			move_def(pretoken, 0);
-			return (ret);
-		}
-		while ((*pretoken) && (*pretoken)->type == WORD && !(*pretoken)->wild)
-		{
-			content = ft_strjoin_free2(content, (*pretoken)->content);
-			move_def(pretoken, 0);
-		}
-		return (new_token(tokens, content, OPERAND));
+		return (add_token_word(tokens, pretoken));
 	}
 	else if ((*pretoken)->type != WHITESPACE)
 	{

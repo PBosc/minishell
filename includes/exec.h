@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/10 23:42:17 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 00:55:49 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ void	init_data(t_exec *data, t_env *env);
 //redirections
 
 int		get_redirs(t_redir_list *redirs, t_exec *data);
-int		read_here_doc(t_hered **here_doc, t_exec *data);
+int		read_here_doc(t_hered **here_doc, t_exec *data, t_minishell *minishell);
 int		write_here_doc(t_hered *here_doc, t_exec *data);
-int		init_heredoc(t_exec *data);
+int		init_heredoc(t_exec *data, t_minishell *minishell);
 void	free_heredoc(t_hered *here_doc);
 int		is_limit(char *line, char *limiter);
 t_hered	*ft_hered_last(t_hered *lst);
@@ -106,11 +106,12 @@ int		exec_builtin(char **args, t_minishell *minishell);
 //handlers
 
 int		handle_not_found(t_node_ast *node);
-int		handle_nocmd_heredoc(t_exec *data);
+int		handle_nocmd_heredoc(t_exec *data, t_minishell *minishell);
 int		precheck(t_node_ast *node, t_exec *data, t_minishell *minishell);
-int		pipe_precheck(t_node_ast *node, t_exec *data);
+int		pipe_precheck(t_node_ast *node, t_exec *data, t_minishell *minishell);
 int		child_pipes(t_exec *data, int in_end);
 void	fork_sig_handler(int sig);
 void	heredoc_sig_handler(int sig);
+char	*expanded_heredoc(char *str, t_minishell *minishell);
 
 #endif

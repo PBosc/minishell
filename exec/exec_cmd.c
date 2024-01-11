@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/10 23:45:46 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 00:49:28 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,19 @@ int	wait_commands(t_exec *exec)
 	return (g_status);
 }
 
-void	handle_heredoc(t_exec *data)
+void	handle_heredoc(t_exec *data, t_minishell *minishell)
 {
 	t_hered	*heredoc;
 
 	heredoc = NULL;
-	read_here_doc(&heredoc, data);
+	read_here_doc(&heredoc, data, minishell);
 	write_here_doc(heredoc, data);
 	dup2(data->pipe[0], STDIN_FILENO);
 	if (data->pipe[0] != -1)
 		close(data->pipe[0]);
 }
 
-void	child_fds(t_exec *data)
+void	child_fds(t_exec *data, t_minishell *minishell)
 {
 	if (data->fd_in != STDIN_FILENO && data->fd_in != REDIR_HEREDOC)
 	{
@@ -53,7 +53,7 @@ void	child_fds(t_exec *data)
 		close(data->fd_in);
 	}
 	if (data->fd_in == REDIR_HEREDOC)
-		handle_heredoc(data);
+		handle_heredoc(data, minishell);
 	if (data->fd_out != STDOUT_FILENO)
 	{
 		dup2(data->fd_out, STDOUT_FILENO);
@@ -85,7 +85,7 @@ int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
 		return (EXIT_FAILURE);
 	if (data->pid == 0)
 	{
-		child_fds(data);
+		child_fds(data, minishell);
 		if (!data->is_pipe)
 			close(data->pipe[1]);
 		env_tab = tab_env(data->env);
