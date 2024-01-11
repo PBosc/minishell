@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 01:05:11 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 02:20:06 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,12 @@ int	init_heredoc(t_exec *data, t_minishell *minishell)
 	free_heredoc(heredoc);
 	data->prev_pipe = data->pipe[0];
 	return (1);
+}
+
+void	close_pipes(t_exec *data)
+{
+	if (data->pipe[0] != -1)
+		close(data->pipe[0]);
+	if (data->pipe[1] != -1)
+		close(data->pipe[1]);
 }

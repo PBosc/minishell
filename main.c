@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/11 00:09:34 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 02:21:15 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ int	routine(t_minishell *minishell, t_exec data)
 			continue ;
 		init_data(&data, minishell->env);
 		exec(minishell->ast, &data, minishell);
+		close_pipes(&data);
 		clear_ast(&(minishell->ast));
 	}
 }
