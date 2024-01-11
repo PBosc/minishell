@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 00:48:23 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/11 01:36:18 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	exec_pipe(t_node_ast *node, t_exec *data,
 			exec_builtin(node->args, minishell);
 		else
 			execve(node->args[0], node->args, tab_env(data->env));
+		close(data->pipe[0]);
+		close(data->pipe[1]);
 		exit(data->ret_value);
 	}
 	else
