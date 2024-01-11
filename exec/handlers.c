@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:03:41 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 05:33:01 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/11 05:36:32 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	handle_not_found(t_node_ast *node, t_exec *data)
 	if (data->pipe[0] != -1)
 	{
 		close(data->pipe[0]);
-		close(data->pipe[1]);
+		if (data->pipe[1] != -1)
+			close(data->pipe[1]);
 		pipe(data->pipe);
 	}
 	data->prev_pipe = data->pipe[0];
