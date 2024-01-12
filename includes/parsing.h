@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/12 01:05:47 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 05:34:51 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,8 @@ t_env					*new_env(char *key, char *value, int i);
 char					*get_name(char *str, int *ptr_i);
 void					display_env(t_env *env);
 char					*ft_itoa(int n);
+int						check_and(char *str);
+int						check_quotes(char *str);
 
 /*Libft functions*/
 char					*ft_strchr(char *s, char c);

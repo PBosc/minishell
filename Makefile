@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g3
+CFLAGS = -Wall -Wextra -Werror -g3
 INCLUDE = -I./includes
 VPATH = ./expand ./parsing ./pretoken ./token ./utils_parsing ./ft_dprintf ./clear_error ./redir ./exec ./utils_exec ./builtins ./signal
 RM = rm -rf
@@ -7,7 +7,7 @@ NAME = minishell
 
 
 SRCS =	ast_redir.c ast_utils.c ast_utils2.c ast.c\
-		pretoken_utils.c pretoken_utils2.c pretoken.c\
+		pretoken_utils.c pretoken_utils2.c pretoken.c checking.c\
 		automate.c automate2.c token.c token_utils.c\
 		cd.c echo.c env_utils.c env.c exit.c export.c pwd.c unset.c\
 		ft_calloc.c ft_isalnum.c ft_strchr.c ft_strcmp.c ft_strdup.c\

@@ -6,31 +6,11 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 00:50:04 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/10 22:47:54 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/12 05:43:12 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-int	check_quotes(char *str)
-{
-	int	single_quote;
-	int	double_quote;
-	int	i;
-
-	single_quote = 0;
-	double_quote = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '"' && !single_quote)
-			double_quote = !double_quote;
-		else if (str[i] == '\'' && !double_quote)
-			single_quote = !single_quote;
-		i++;
-	}
-	return (!single_quote && !double_quote);
-}
 
 t_pretoken	*last_pretoken(t_pretoken *pretoken)
 {
@@ -107,6 +87,9 @@ t_pretoken	*pretokenization(char *str)
 	if (!check_quotes(str))
 		return (ft_dprintf(2,
 				"minishell: syntax error because of unclosed quote\n"), NULL);
+	if (!check_and(str))
+		return (ft_dprintf(2,
+				"minishell: syntax error near unexpected token `&'\n"), NULL);
 	pretokens = NULL;
 	while (str[i])
 	{

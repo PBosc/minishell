@@ -1,58 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   checking.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/06 15:45:58 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/12 05:33:46 by ybelatar         ###   ########.fr       */
+/*   Created: 2024/01/12 01:27:30 by ybelatar          #+#    #+#             */
+/*   Updated: 2024/01/12 01:43:54 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
-int	is_option(char *arg)
+int	check_and(char *str)
 {
 	int	i;
 
-	if (ft_strlen(arg) < 2)
-		return (0);
 	i = 0;
-	if (arg[i++] != '-')
-		return (0);
-	while (arg[i])
+	while (str[i])
 	{
-		if (arg[i] != 'n')
+		if (str[i] == '&' && str[i + 1] != '&')
 			return (0);
-		i++;
+		else if (str[i] == '&' && str[i + 1] == '&')
+			i = i + 2;
+		else
+			i++;
 	}
 	return (1);
 }
 
-int	echo(char **tab)
+int	check_quotes(char *str)
 {
-	int	led;
+	int	single_quote;
+	int	double_quote;
 	int	i;
 
-	if (!tab || !*tab)
-		return (0);
-	led = 0;
+	single_quote = 0;
+	double_quote = 0;
 	i = 0;
-	while (tab[i] && is_option(tab[i]))
+	while (str[i])
 	{
-		led = 1;
+		if (str[i] == '"' && !single_quote)
+			double_quote = !double_quote;
+		else if (str[i] == '\'' && !double_quote)
+			single_quote = !single_quote;
 		i++;
 	}
-	while (tab[i])
-	{
-		if (!tab[i + 1])
-			printf("%s", tab[i]);
-		else
-			printf("%s ", tab[i]);
-		i++;
-	}
-	if (!led)
-		printf("\n");
-	return (0);
+	return (!single_quote && !double_quote);
 }
