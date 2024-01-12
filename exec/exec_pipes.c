@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 00:37:51 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 02:28:43 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 04:26:16 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,21 @@ int	exec_more_pipes(t_node_ast *node, t_exec *data, t_minishell *minishell)
 
 int	exec_master_pipe(t_node_ast *node, t_exec *data, t_minishell *minishell)
 {
+	data->is_pipe = 1;
 	if (node->left_child->type == T_CMD)
-		return (exec_2pipes(node, data, minishell));
+	{
+		exec_2pipes(node, data, minishell);
+		data->is_pipe = 0;
+		return (0);
+	}
 	else if (node->left_child->type == T_PIPE)
-		return (exec_more_pipes(node, data, minishell));
+	{
+		exec_more_pipes(node, data, minishell);
+		data->is_pipe = 0;
+		return (1);
+	}
 	else
 	{
-		data->is_pipe = 1;
 		exec(node->left_child, data, minishell);
 		exec_pipe(node->right_child, data, 1, minishell);
 		data->is_pipe = 0;

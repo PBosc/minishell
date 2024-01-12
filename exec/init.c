@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:59:08 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 02:08:12 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 04:33:14 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	init_data(t_exec *data, t_env *env)
 	data->pipe[1] = -1;
 	data->is_pipe = 0;
 	data->ret_value = EXIT_SUCCESS;
-	data->is_here_doc = 0;
 }
 
 char	*get_one(t_env *env)
@@ -51,8 +50,12 @@ char	**tab_env(t_env *env)
 
 int	id(char *path)
 {
-	struct stat	path_stat;
+	struct stat	*path_stat;
+	int			ret;
 
-	stat(path, &path_stat);
-	return (!S_ISREG(path_stat.st_mode));
+	path_stat = malloc(sizeof(struct stat));
+	stat(path, path_stat);
+	ret = !S_ISREG(path_stat->st_mode);
+	free(path_stat);
+	return (ret);
 }

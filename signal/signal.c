@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 21:40:45 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 02:01:44 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 04:11:00 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	heredoc_sig_handler(int sig)
 	{
 		ft_dprintf(STDERR_FILENO, "\n");
 		rl_redisplay();
-		exit(1);
 		g_status = 130;
+		exit(g_status);
 	}
 }
