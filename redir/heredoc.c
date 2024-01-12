@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 04:10:41 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 06:51:10 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	child_heredoc(t_hered *heredoc, t_exec *data, t_minishell *ms)
 {
 	write_here_doc(heredoc, data);
 	free_heredoc(heredoc);
-	close(data->pipe[0]);
-	close(data->pipe[1]);
+	ft_close(data->pipe[0]);
+	ft_close(data->pipe[1]);
 	clear_ast(&ms->ast);
 	clear_env(&ms->env);
 	free(ms);
@@ -84,7 +84,7 @@ int	init_heredoc(t_exec *data, t_minishell *minishell, int ignore_fork)
 		return (0);
 	if (child_pid == 0)
 		child_heredoc(heredoc, data, minishell);
-	close(data->pipe[1]);
+	ft_close(data->pipe[1]);
 	free_heredoc(heredoc);
 	data->prev_pipe = data->pipe[0];
 	return (1);
@@ -93,11 +93,11 @@ int	init_heredoc(t_exec *data, t_minishell *minishell, int ignore_fork)
 void	close_pipes(t_exec *data)
 {
 	if (data->pipe[0] != -1)
-		close(data->pipe[0]);
+		ft_close(data->pipe[0]);
 	if (data->pipe[1] != -1)
-		close(data->pipe[1]);
+		ft_close(data->pipe[1]);
 	if (data->fd_in != -1 && data->fd_in != 0 && data->fd_in != -42)
-		close(data->fd_in);
+		ft_close(data->fd_in);
 	if (data->fd_out != -1 && data->fd_out != 1)
-		close(data->fd_out);
+		ft_close(data->fd_out);
 }

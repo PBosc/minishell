@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 19:13:00 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 01:48:20 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 06:51:10 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	handle_heredoc(t_exec *data, t_minishell *minishell)
 	write_here_doc(heredoc, data);
 	dup2(data->pipe[0], STDIN_FILENO);
 	if (data->pipe[0] != -1)
-		close(data->pipe[0]);
+		ft_close(data->pipe[0]);
 }
 
 void	child_fds(t_exec *data, t_minishell *minishell)
@@ -50,20 +50,20 @@ void	child_fds(t_exec *data, t_minishell *minishell)
 	if (data->fd_in != STDIN_FILENO && data->fd_in != REDIR_HEREDOC)
 	{
 		dup2(data->fd_in, STDIN_FILENO);
-		close(data->fd_in);
+		ft_close(data->fd_in);
 	}
 	if (data->fd_in == REDIR_HEREDOC)
 		handle_heredoc(data, minishell);
 	if (data->fd_out != STDOUT_FILENO)
 	{
 		dup2(data->fd_out, STDOUT_FILENO);
-		close(data->fd_out);
+		ft_close(data->fd_out);
 	}
 	if (data->is_pipe && data->fd_out == STDOUT_FILENO)
 	{
 		dup2(data->pipe[1], STDOUT_FILENO);
 		if (data->pipe[0] != -1)
-			close(data->pipe[0]);
+			ft_close(data->pipe[0]);
 	}
 }
 
@@ -87,7 +87,7 @@ int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
 	{
 		child_fds(data, minishell);
 		if (!data->is_pipe)
-			close(data->pipe[1]);
+			ft_close(data->pipe[1]);
 		env_tab = tab_env(data->env);
 		execve(node->args[0], node->args, env_tab);
 		(free_tab_2d(env_tab), exit(data->ret_value));
@@ -95,7 +95,7 @@ int	exec_cmd(t_node_ast *node, t_exec *data, t_minishell *minishell)
 	else
 	{
 		if (!data->is_pipe)
-			close(data->pipe[1]);
+			ft_close(data->pipe[1]);
 		else
 			data->fd_in = data->pipe[0];
 		data->fd_out = STDOUT_FILENO;

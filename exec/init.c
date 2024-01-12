@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:59:08 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 04:33:14 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 06:51:16 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,15 @@ int	id(char *path)
 	struct stat	*path_stat;
 	int			ret;
 
-	path_stat = malloc(sizeof(struct stat));
+	path_stat = ft_calloc(1, sizeof(struct stat));
 	stat(path, path_stat);
 	ret = !S_ISREG(path_stat->st_mode);
 	free(path_stat);
 	return (ret);
+}
+
+void	ft_close(int fd)
+{
+	if (fd >= 0)
+		close(fd);
 }

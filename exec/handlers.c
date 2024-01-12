@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:03:41 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 03:48:45 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 06:51:10 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	handle_not_found(t_node_ast *node)
 {
 	g_status = 127;
+	if (!node->args[0] || !ft_strcmp(node->args[0], "placeholder1234"))
+		return (g_status);
 	if (id(node->args[0]))
 		return (ft_dprintf(2, "minishell: %s: \
 command not found\n", node->args[0]), g_status);
-	if (!node->args[0] || !ft_strcmp(node->args[0], "placeholder1234"))
-		return (g_status);
 	ft_dprintf(2, "minishell: %s: %s\n", node->args[0], strerror(errno));
 	return (1);
 }
@@ -56,7 +56,7 @@ int	precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 		|| (!is_builtin(node->args[0]) && id(node->args[0])))
 		return (handle_not_found(node));
 	if (is_builtin(node->args[0]))
-		return (close(data->pipe[0]), close(data->pipe[1]),
+		return (ft_close(data->pipe[0]), ft_close(data->pipe[1]),
 			exec_builtin(node->args, minishell, data), 1);
 	return (0);
 }
@@ -72,8 +72,8 @@ int	child_pipes(t_exec *data, int is_end)
 	else if (!is_end)
 		dup2(data->pipe[1], STDOUT_FILENO);
 	if (data->prev_pipe != -1)
-		close(data->prev_pipe);
-	close(data->pipe[0]);
+		ft_close(data->prev_pipe);
+	ft_close(data->pipe[0]);
 	return (EXIT_SUCCESS);
 }
 
@@ -98,7 +98,7 @@ int	pipe_precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 		|| (!is_builtin(node->args[0]) && id(node->args[0])))
 	{
 		handle_not_found(node);
-		return (close(data->pipe[0]), close(data->pipe[1]), 1);
+		return (ft_close(data->pipe[0]), ft_close(data->pipe[1]), 1);
 	}
 	if (pipe(data->pipe) == -1)
 		return (1);
