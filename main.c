@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/12 04:28:06 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 05:49:15 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,8 +172,7 @@ int	routine(t_minishell *minishell, t_exec data)
 		minishell->ast = parser(minishell->tokens);
 		if (!minishell->tokens)
 			continue ;
-		init_data(&data, minishell->env);
-		data.is_here_doc = 0;
+		(init_data(&data, minishell->env), data.is_here_doc = 0);
 		exec(minishell->ast, &data, minishell);
 		close_pipes(&data);
 		clear_ast(&(minishell->ast));
