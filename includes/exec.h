@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 23:44:20 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 03:48:33 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ void	init_data(t_exec *data, t_env *env);
 
 //redirections
 
-int		get_redirs(t_redir_list *redirs, t_exec *data);
+int		get_redirs(t_redir_list *redirs, t_exec *data, t_minishell *minishell);
 int		read_here_doc(t_hered **here_doc, t_exec *data, t_minishell *minishell);
 int		write_here_doc(t_hered *here_doc, t_exec *data);
-int		init_heredoc(t_exec *data, t_minishell *minishell);
+int		init_heredoc(t_exec *data, t_minishell *minishell, int ignore_fork);
 void	free_heredoc(t_hered *here_doc);
 int		is_limit(char *line, char *limiter);
 t_hered	*ft_hered_last(t_hered *lst);
@@ -102,7 +102,7 @@ int		export(char **args, t_minishell *minishell);
 int		pwd(char **args, t_minishell *minishell);
 int		unset(char **args, t_minishell *minishell);
 int		is_builtin(char *cmd);
-int		exec_builtin(char **args, t_minishell *minishell);
+int		exec_builtin(char **args, t_minishell *minishell, t_exec *data);
 
 //handlers
 
@@ -115,5 +115,6 @@ void	fork_sig_handler(int sig);
 void	heredoc_sig_handler(int sig);
 char	*expanded_heredoc(char *str, t_minishell *minishell);
 void	close_pipes(t_exec *data);
+int		id(char *path);
 
 #endif

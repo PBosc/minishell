@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:03:41 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 03:25:27 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/12 03:48:45 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 int	handle_not_found(t_node_ast *node)
 {
 	g_status = 127;
+	if (id(node->args[0]))
+		return (ft_dprintf(2, "minishell: %s: \
+command not found\n", node->args[0]), g_status);
 	if (!node->args[0] || !ft_strcmp(node->args[0], "placeholder1234"))
 		return (g_status);
 	ft_dprintf(2, "minishell: %s: %s\n", node->args[0], strerror(errno));
@@ -39,7 +42,7 @@ int	precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 {
 	if (data->is_pipe)
 		return (exec_pipe(node, data, 0, minishell), 0);
-	if (!get_redirs(node->redirs, data))
+	if (!get_redirs(node->redirs, data, minishell))
 		return (1);
 	if (!node->args)
 		return (handle_nocmd_heredoc(data, minishell));
@@ -49,11 +52,12 @@ int	precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 		node->args[0] = get_valid_path(get_path(data->env), node->args[0]);
 	if (node->args[0] == NULL || !ft_strcmp(node->args[0], "placeholder1234")
 		|| (!is_builtin(node->args[0])
-			&& access(node->args[0], F_OK | X_OK) == -1))
+			&& access(node->args[0], F_OK | X_OK) == -1)
+		|| (!is_builtin(node->args[0]) && id(node->args[0])))
 		return (handle_not_found(node));
 	if (is_builtin(node->args[0]))
 		return (close(data->pipe[0]), close(data->pipe[1]),
-			exec_builtin(node->args, minishell), 1);
+			exec_builtin(node->args, minishell, data), 1);
 	return (0);
 }
 
@@ -75,27 +79,26 @@ int	child_pipes(t_exec *data, int is_end)
 
 int	pipe_precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 {
-	if (!get_redirs(node->redirs, data))
+	if (!get_redirs(node->redirs, data, minishell))
 		return (1);
 	if (!node->args)
 	{
 		if (data->fd_in == REDIR_HEREDOC)
-			init_heredoc(data, minishell);
+			init_heredoc(data, minishell, 0);
 		g_status = 0;
 		return (1);
 	}
 	if (data->fd_in == REDIR_HEREDOC)
-		init_heredoc(data, minishell);
+		init_heredoc(data, minishell, 0);
 	if (!is_builtin(node->args[0]))
 		node->args[0] = get_valid_path(get_path(data->env), node->args[0]);
 	if (node->args[0] == NULL || !ft_strcmp(node->args[0], "placeholder1234")
 		|| (!is_builtin(node->args[0])
-			&& access(node->args[0], F_OK | X_OK) == -1))
+			&& access(node->args[0], F_OK | X_OK) == -1)
+		|| (!is_builtin(node->args[0]) && id(node->args[0])))
 	{
 		handle_not_found(node);
-		close(data->pipe[0]);
-		close(data->pipe[1]);
-		return (1);
+		return (close(data->pipe[0]), close(data->pipe[1]), 1);
 	}
 	if (pipe(data->pipe) == -1)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:13:06 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 01:44:40 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 02:25:33 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-int	exec_builtin(char **args, t_minishell *minishell)
+int	exec_builtin(char **args, t_minishell *minishell, t_exec *data)
 {
 	if (ft_strcmp(args[0], "echo") == 0)
 		g_status = echo(args + 1);
@@ -49,6 +49,12 @@ int	exec_builtin(char **args, t_minishell *minishell)
 		g_status = env(minishell);
 	else if (ft_strcmp(args[0], "exit") == 0)
 		g_status = exit_minishell(args + 1, minishell);
+	if (data->is_pipe)
+	{
+		clear_ast(&minishell->ast);
+		clear_env(&minishell->env);
+		free(minishell);
+	}
 	return (g_status);
 }
 

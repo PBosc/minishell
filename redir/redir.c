@@ -6,24 +6,23 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:21:46 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 23:52:08 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 03:57:09 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-int	get_infile(t_redir_list *redir, t_exec *data, char **infile)
+int	get_infile(t_redir_list *redir, t_exec *data,
+		char **infile, t_minishell *minishell)
 {
-	t_hered					*heredoc;
+	t_hered	*heredoc;
 
 	heredoc = NULL;
 	if (data->is_here_doc == 1
 		&& (redir->type == R_HEREDOC || redir->type == R_IN))
 	{
-		read_here_doc(&heredoc, data, NULL);
-		free_heredoc(heredoc);
+		init_heredoc(data, minishell, 1);
 	}
-	data->is_here_doc = 0;
 	if (redir->type == R_IN)
 	{
 		*infile = redir->file;
@@ -64,20 +63,20 @@ int	get_outfile(t_redir_list *redir, char **outfile)
 	return (is_append);
 }
 
-int	get_fd_in(t_redir_list *redirs, t_exec *data, char **infile)
+int	get_fd_in(t_redir_list *redirs, t_exec *data,
+		char **infile, t_minishell *minishell)
 {
-	int				is_here_doc;
 	t_redir_list	*redir;
 
 	*infile = NULL;
-	is_here_doc = 0;
+	data->is_here_doc = 0;
 	redir = redirs;
 	while (redir)
 	{
-		is_here_doc = get_infile(redir, data, infile);
+		get_infile(redir, data, infile, minishell);
 		redir = redir->next_redir;
 	}
-	if (is_here_doc && *infile)
+	if (data->is_here_doc && *infile)
 		return (REDIR_HEREDOC);
 	if (*infile)
 		return (open(*infile, O_RDONLY));
@@ -104,12 +103,12 @@ int	get_fd_out(t_redir_list *redirs, char **outfile)
 	return (STDOUT_FILENO);
 }
 
-int	get_redirs(t_redir_list *redirs, t_exec *data)
+int	get_redirs(t_redir_list *redirs, t_exec *data, t_minishell *minishell)
 {
 	char	*infile;
 	char	*outfile;
 
-	data->fd_in = get_fd_in(redirs, data, &infile);
+	data->fd_in = get_fd_in(redirs, data, &infile, minishell);
 	if (data->fd_in == -1)
 	{
 		ft_dprintf(STDERR_FILENO, "minishell: %s: %s\n",

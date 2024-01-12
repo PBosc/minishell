@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:49 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/09 11:31:27 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 02:01:46 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "exec.h"
 # include "parsing.h"
 # include "ft_dprintf.h"
+# include <sys/types.h>
+# include <sys/stat.h>
 
 extern int	g_status;
 

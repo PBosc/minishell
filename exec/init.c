@@ -6,11 +6,11 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:59:08 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 23:45:55 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/12 02:08:12 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "minishell.h"
 
 void	init_data(t_exec *data, t_env *env)
 {
@@ -47,4 +47,12 @@ char	**tab_env(t_env *env)
 		env = env->next_env;
 	}
 	return (res);
+}
+
+int	id(char *path)
+{
+	struct stat	path_stat;
+
+	stat(path, &path_stat);
+	return (!S_ISREG(path_stat.st_mode));
 }
