@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:22:53 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/13 17:20:44 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/13 21:23:25 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	garbage_collector(t_minishell *minishell, t_hered **here_doc, int i)
 		free_heredoc(*heredoc);
 		clear_ast(&ms->ast);
 		clear_env(&(ms->env));
-		free(minishell);
+		free(ms);
 	}
 	else
 	{

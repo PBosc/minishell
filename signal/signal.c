@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 21:40:45 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/13 17:10:27 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/13 21:29:05 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	heredoc_sig_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
+		rl_replace_line("", 0);
 		ft_dprintf(STDERR_FILENO, "\n");
-		rl_redisplay();
 		g_status = 130;
 		garbage_collector(NULL, NULL, 1);
 		exit(g_status);

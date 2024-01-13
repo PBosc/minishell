@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:59:08 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 06:51:16 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/13 21:29:19 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_data(t_exec *data, t_env *env)
 	data->pipe[1] = -1;
 	data->is_pipe = 0;
 	data->ret_value = EXIT_SUCCESS;
+	data->pid = 0;
 }
 
 char	*get_one(t_env *env)

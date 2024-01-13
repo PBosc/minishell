@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:03:41 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 06:51:10 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/13 21:25:14 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,15 @@ command not found\n", node->args[0]), g_status);
 int	handle_nocmd_heredoc(t_exec *data, t_minishell *minishell)
 {
 	t_hered	*heredoc;
+	int		pid;
 
 	heredoc = NULL;
-	if (data->fd_in == REDIR_HEREDOC)
+	pid = fork();
+	if (!pid && data->fd_in == REDIR_HEREDOC)
 	{
 		read_here_doc(&heredoc, data, minishell);
 		free_heredoc(heredoc);
+		exit(0);
 	}
 	g_status = 0;
 	return (1);
