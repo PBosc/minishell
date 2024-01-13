@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/13 21:35:19 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/13 23:16:31 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,23 @@ int	write_here_doc(t_hered *here_doc, t_exec *data)
 	return (1);
 }
 
-void	child_heredoc(t_hered *heredoc, t_exec *data, t_minishell *ms)
+void	child_heredoc(t_hered *heredoc, t_exec *data,
+t_minishell *ms, int ignore_fork)
 {
-	if (!read_here_doc(&heredoc, data, ms))
+	dprintf(2, "here\n");
+	if (!read_here_doc(&heredoc, data, ms) && !ignore_fork)
 		exit(g_status);
 	write_here_doc(heredoc, data);
 	free_heredoc(heredoc);
 	ft_close(data->pipe[0]);
 	ft_close(data->pipe[1]);
-	clear_ast(&ms->ast);
-	clear_env(&ms->env);
-	free(ms);
-	exit(EXIT_SUCCESS);
+	if (!ignore_fork)
+	{
+		clear_ast(&ms->ast);
+		clear_env(&ms->env);
+		free(ms);
+		exit(EXIT_SUCCESS);
+	}
 }
 
 int	init_heredoc(t_exec *data, t_minishell *minishell, int ignore_fork)
@@ -77,12 +82,12 @@ int	init_heredoc(t_exec *data, t_minishell *minishell, int ignore_fork)
 	heredoc = NULL;
 	if (!ignore_fork)
 		child_pid = fork();
-	else
-		free_heredoc(heredoc);
-	if (child_pid == -1)
+	if (child_pid == -1 && !ignore_fork)
 		return (0);
-	if (child_pid == 0)
-		child_heredoc(heredoc, data, minishell);
+	if (child_pid == 0 || ignore_fork)
+		child_heredoc(heredoc, data, minishell, ignore_fork);
+	else if (!ignore_fork)
+		g_status = wait_commands(data);
 	ft_close(data->pipe[1]);
 	free_heredoc(heredoc);
 	data->prev_pipe = data->pipe[0];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:13:06 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/13 22:36:56 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/13 22:43:25 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	exec_builtin(char **args, t_minishell *minishell, t_exec *data)
 		g_status = env(minishell);
 	else if (ft_strcmp(args[0], "exit") == 0)
 		g_status = exit_minishell(args + 1, minishell);
-	ft_dprintf(2, "g_status = %d\n", data->is_pipe);
 	if (data->is_pipe)
 	{
 		clear_ast(&minishell->ast);

@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:45:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/13 00:57:30 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/13 22:52:37 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	cd(char **args, t_minishell *minishell)
 	if (!getcwd(tmp, 2048))
 		return (1);
 	if (chdir(*args) == -1)
-		return (ft_dprintf(2, "minishell : %s: %s\n",
+		return (ft_dprintf(2, "minishell : cd: %s: %s\n",
 				*args, strerror(errno)), 1);
 	if (!getcwd(tmp1, 2048))
 		return (1);
