@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 14:54:26 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/13 22:50:08 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/13 23:23:28 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int	routine(t_minishell *minishell, t_exec data)
 	{
 		signal(SIGINT, sig_handler);
 		signal(SIGQUIT, SIG_IGN);
-		minishell->cmd_line = readline("\033[0;31m minishell$ \033[0m");
+		minishell->cmd_line = readline("minishell$");
 		if (!minishell->cmd_line)
 			return (clear_env(&(minishell->env)),
 				free(minishell), ft_dprintf(2, "exit\n"), 0);
