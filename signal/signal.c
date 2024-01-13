@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 21:40:45 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 04:11:00 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/13 17:10:27 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	heredoc_sig_handler(int sig)
 		ft_dprintf(STDERR_FILENO, "\n");
 		rl_redisplay();
 		g_status = 130;
+		garbage_collector(NULL, NULL, 1);
 		exit(g_status);
 	}
 }

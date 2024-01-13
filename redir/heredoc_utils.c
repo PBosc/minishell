@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:22:53 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/09 11:24:27 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/13 17:20:44 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	is_limit(char *line, char *limiter)
 	length = ft_strlen(limiter);
 	if (line[0] == '\n')
 		return (0);
-	return (ft_strncmp(line, limiter, length) == 0
-		&& (line[length] == '\n'));
+	return (ft_strncmp(line, limiter, length) == 0 && (line[length] == '\n'));
 }
 
 void	free_heredoc(t_hered *here_doc)
@@ -64,4 +63,23 @@ int	ft_lstpush_back(t_hered **lst, char *line)
 			*lst = new;
 	}
 	return (1);
+}
+
+void	garbage_collector(t_minishell *minishell, t_hered **here_doc, int i)
+{
+	static t_minishell	*ms = NULL;
+	static t_hered		**heredoc = NULL;
+
+	if (i)
+	{
+		free_heredoc(*heredoc);
+		clear_ast(&ms->ast);
+		clear_env(&(ms->env));
+		free(minishell);
+	}
+	else
+	{
+		ms = minishell;
+		heredoc = here_doc;
+	}
 }

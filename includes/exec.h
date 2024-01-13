@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 18:12:44 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 06:51:40 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/13 17:20:54 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_putstr_fd(char *s, int fd);
 char				*get_name(char *str, int *ptr_i);
 void				ft_close(int fd);
+void				garbage_collector(t_minishell *minishell,
+						t_hered **here_doc, int i);
 
 // pipe
 int					exec_master_pipe(t_node_ast *node, t_exec *data,

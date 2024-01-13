@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 06:51:10 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/13 17:14:42 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	read_here_doc(t_hered **here_doc, t_exec *data, t_minishell *minishell)
 	{
 		signal(SIGINT, heredoc_sig_handler);
 		signal(SIGQUIT, SIG_IGN);
+		garbage_collector(minishell, here_doc, 0);
 		line = readline("> ");
 		if (!line)
 			return (ft_dprintf(2, "minishell: warning: here-document delimited by end-of-file \
