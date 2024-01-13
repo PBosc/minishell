@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 15:46:03 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/11 03:31:32 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/13 16:15:22 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	clear_exit(t_minishell *minishell)
 int	exit_minishell(char **tab, t_minishell *minishell)
 {
 	int	i;
+	int	exit_value;
 
 	printf("exit\n");
 	if (!tab || !*tab)
@@ -42,5 +43,7 @@ int	exit_minishell(char **tab, t_minishell *minishell)
 		ft_dprintf(2, "minishell: exit: too many arguments\n");
 		return (1);
 	}
-	exit(ft_atoi(*tab));
+	exit_value = ft_atoi(*tab);
+	clear_exit(minishell);
+	exit(exit_value);
 }

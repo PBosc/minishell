@@ -6,7 +6,7 @@
 /*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:52:56 by ybelatar          #+#    #+#             */
-/*   Updated: 2024/01/12 05:34:51 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/13 16:18:44 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,8 @@ void					display_env(t_env *env);
 char					*ft_itoa(int n);
 int						check_and(char *str);
 int						check_quotes(char *str);
+char					**sort_tab(char **tab);
+int						plen(char **map);
 
 /*Libft functions*/
 char					*ft_strchr(char *s, char c);
