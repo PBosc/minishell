@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 22:21:46 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/12 06:51:10 by ybelatar         ###   ########.fr       */
+/*   Updated: 2024/01/13 23:35:55 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	get_infile(t_redir_list *redir, t_exec *data,
 		data->limiter = redir->file;
 		data->is_here_doc = 1;
 	}
-	redir = redir->next_redir;
 	return (data->is_here_doc);
 }
 
@@ -43,7 +42,6 @@ int	get_outfile(t_redir_list *redir, char **outfile)
 	int				is_append;
 	int				fd;
 
-	*outfile = NULL;
 	is_append = 0;
 	if (redir->type == R_OUT)
 	{

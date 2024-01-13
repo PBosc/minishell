@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 16:29:13 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/13 23:16:31 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/13 23:36:59 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	write_here_doc(t_hered *here_doc, t_exec *data)
 void	child_heredoc(t_hered *heredoc, t_exec *data,
 t_minishell *ms, int ignore_fork)
 {
-	dprintf(2, "here\n");
 	if (!read_here_doc(&heredoc, data, ms) && !ignore_fork)
 		exit(g_status);
 	write_here_doc(heredoc, data);
