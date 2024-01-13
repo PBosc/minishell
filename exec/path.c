@@ -6,7 +6,7 @@
 /*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 16:41:31 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/11 04:39:05 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/13 00:55:44 by pibosc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ char	*get_valid_path(char **paths, char *cmd)
 	char	*cmd_path;
 	char	*tmp;
 
-	if (!paths || (cmd[0] == '.' && cmd[1] == '/') || cmd[0] == '/')
+	if (!paths || (cmd[0] == '.' && (cmd[1] == '/' || cmd[1] == '.'))
+		|| cmd[0] == '/')
 		return (free_tab_2d(paths), cmd);
 	else if (!paths || !cmd[0])
 		return (free_tab_2d(paths), ft_dprintf(2, "minishell: %s: \
