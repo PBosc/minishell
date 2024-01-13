@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handlers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibosc <pibosc@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ybelatar <ybelatar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/09 11:03:41 by pibosc            #+#    #+#             */
-/*   Updated: 2024/01/13 21:25:14 by pibosc           ###   ########.fr       */
+/*   Updated: 2024/01/13 22:36:51 by ybelatar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	pipe_precheck(t_node_ast *node, t_exec *data, t_minishell *minishell)
 		|| (!is_builtin(node->args[0]) && id(node->args[0])))
 	{
 		handle_not_found(node);
-		return (ft_close(data->pipe[0]), ft_close(data->pipe[1]), 1);
+		return (ft_close(data->pipe[1]), 1);
 	}
 	if (pipe(data->pipe) == -1)
 		return (1);
